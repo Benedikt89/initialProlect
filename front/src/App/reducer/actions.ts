@@ -1,7 +1,9 @@
+import {Dispatch} from "redux";
 import {AppStateType} from "../../redux/store";
 import {fetchData} from "./api-actions";
-import {I_dataToStore} from "../../types/types";
+import {I_dataToStore, I_userSessionData} from "../../types/types";
 import {ThunkDispatch} from "redux-thunk";
+import {authAPI,responseType} from "./api";
 
 type GetStateType = () => AppStateType
 
@@ -9,7 +11,8 @@ export const SET_FETCH_SUCCESS = 'app/SET_FETCH_SUCCESS';
 export const SET_IS_FETCHING = 'app/SET_IS_FETCHING';
 export const SET_ERROR = 'app/SET_ERROR';
 
-export type I_actions =
+
+export type I_appActions =
     I_toggleIsFetching  |
     I_fetchSuccess | I_setError
 
@@ -29,12 +32,16 @@ interface I_setError {
     message: null | string
 }
 
+
+
+
 //Internal ACTIONS CREATORS
 export const _fetchSuccess = (data: I_dataToStore): I_fetchSuccess => ({ type: SET_FETCH_SUCCESS, data});
 
 export const _toggleIsFetching = (status: boolean): I_toggleIsFetching => ({ type: SET_IS_FETCHING, status});
 
 export const _setError = (message: string | null): I_setError => ({ type: SET_ERROR, message});
+
 
 //EXTERNAL ACTIONS
 export const fetchAll = () =>

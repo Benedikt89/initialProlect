@@ -1,13 +1,21 @@
 import {I_authState} from "../../types/types";
 
+import {I_authActions, SET_USER_DATA} from "./actions";
+
 let initialState: I_authState = {
-    userID: null,
+
+    _id: null,
     email: null,
-    login: null,
-    isAuth: false
+    password: null,
+    isAdmin: null,
+    __v: null,
+    token: null,
+    tokenDeathTime: null,
+    rememberMe: null,
+
 }
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state: I_authState = initialState, action: I_authActions) => {
     switch (action.type) {
         case SET_USER_DATA: {
             return {
@@ -20,41 +28,6 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-export const setAuthUserData = (userID,email,login, isAuth) => ({type: SET_USER_DATA, payload:{userID,email,login, isAuth}});
-
-export const getUserDataOnProfilePage = () => {
-    return (dispatch) => {
-        authAPI.getUserProfilePageRequest()
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    let {id, email, login} = response.data.data;
-                    dispatch(setAuthUserData(id, email, login, true))
-                }
-            });
-    }
-}
-
-export const login = (email, password, rememberMe) => {
-    return (dispatch) => {
-        authAPI.login(email,password, rememberMe)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(getUserDataOnProfilePage())
-                }
-            });
-    }
-}
-
-export const logout = () => {
-    return (dispatch) => {
-        authAPI.logout()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setAuthUserData(null,null,null, false))
-                }
-            })
-    }
-}
 
 export default authReducer;
 

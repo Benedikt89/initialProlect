@@ -1,4 +1,4 @@
-import {_fetchSuccess, _setError, _toggleIsFetching, I_actions} from "./actions";
+import {_fetchSuccess, _setError, _toggleIsFetching, I_appActions} from "./actions";
 import {AppStateType} from "../../redux/store";
 import {ThunkDispatch} from "redux-thunk";
 
@@ -7,7 +7,7 @@ type GetStateType = () => AppStateType
 
 //API ACTIONS
 export const fetchData = () =>
-    async (dispatch: ThunkDispatch<{}, {}, I_actions>) => {
+    async (dispatch: ThunkDispatch<{}, {}, I_appActions>) => {
         try {
             dispatch(_toggleIsFetching(true));
             await new Promise((resolve)=>{resolve('asd')});

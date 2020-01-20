@@ -6,8 +6,17 @@ export interface I_dataToStore {
     asd: any
 }
 export interface I_authState {
-    userID: string | number | null
+    _id: string | null,
     email: string | null,
-    login: string | null,
-    isAuth: boolean
+    password: string | null,
+    isAdmin: boolean | null,
+    __v: number | null,
+    token: string | null,
+    tokenDeathTime: number | null,
+    rememberMe: boolean | null
 }
+
+export interface I_userSessionData extends I_authState{
+    name: string | null,
+}
+

@@ -1,12 +1,13 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
 
-const LoginisatinForm: React.FC = () => {
-    return (<form>
+const LoginizatinForm: React.FC = (props: any) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
         <div>
             <Field component={"input"}
-                   name={"login"}
-                   placeholder={"Login"}
+                   name={"email"}
+                   placeholder={"Email"}
                    type={"text"}
             />
             <Field component={"input"}
@@ -23,9 +24,22 @@ const LoginisatinForm: React.FC = () => {
             </div>
         </div>
 
-    </form>)
+    </form>
+    )
 }
 
-const Loginization = reduxForm({form: 'login'})(LoginisatinForm)
-export default Loginization;
+const LoginPage: React.FC = () => {
+
+    const onSubmit = (formData: any) => {
+        debugger
+        console.log("Data from 'login' form: "+formData)
+    }
+
+    return (<div>
+        <Loginization onSubmit={onSubmit}/>
+    </div>)
+
+}
+const Loginization = reduxForm({form: 'login'})(LoginizatinForm)
+export default LoginPage;
 
