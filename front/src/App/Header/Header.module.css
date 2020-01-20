@@ -1,0 +1,60 @@
+.headerWrapper
+{
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+
+    height: 4rem;
+    padding: 0 5%;
+
+    background-color: inherit;
+    box-shadow: 0 8px 10px rgba(159, 90, 12, .13);
+}
+
+.navContainer
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.navContainer > *
+{
+    padding: 0 .6rem;
+
+    text-decoration: none;
+}
+
+.inform
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.inform > span
+{
+    margin: 0 15px;
+}
+
+.active
+{
+    font-weight: 700;
+}
+
+.item
+{
+    font-size: 1.4rem;
+
+    margin-right: 1rem;
+
+    cursor: pointer;
+}
+
+.item:hover
+{
+    color: #adb5bd;
+}
