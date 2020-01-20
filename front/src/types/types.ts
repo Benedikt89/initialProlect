@@ -5,3 +5,9 @@ export interface I_appState {
 export interface I_dataToStore {
     asd: any
 }
+export interface I_authState {
+    userID: string | number | null
+    email: string | null,
+    login: string | null,
+    isAuth: boolean
+}

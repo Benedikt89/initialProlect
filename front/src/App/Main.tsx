@@ -12,6 +12,7 @@ import {getAppError, getIsFetching} from "./reducer/selectors";
 import Preloader from "./Common/Preloader";
 import {connect} from "react-redux";
 import {Route, RouteComponentProps, Switch, withRouter} from "react-router";
+import Loginization from "../Loginization/Loginization";
 
 interface I_props {
     title?: string
@@ -52,7 +53,8 @@ class Main extends Component<I_MainProps> {
                 <h1>asd</h1>
                     <Switch>
                         <Route path="/catalog" component={Preloader}/>
-                        <Route path="*" render={() => <div>Error 404</div>}/>
+{/*                        <Route path="*" render={() => <div>Error 404</div>}/>*/}
+                        <Route path="/login" render={() => <Loginization />}/>
                     </Switch>
                 </div>
 
