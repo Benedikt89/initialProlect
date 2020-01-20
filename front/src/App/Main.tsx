@@ -6,13 +6,11 @@ import '../App.css';
 import style from './Main.module.css';
 import {fetchData} from "./reducer/api-actions";
 import {getAppError, getIsFetching} from "./reducer/selectors";
-//import {checkIsAuth, logIn, logOut} from "../authorisation/actions";
-//import {getIsAuth} from "../authorisation/selectors";
-//import LoginPage from "./Login/Login";
 import Preloader from "./Common/Preloader";
 import {connect} from "react-redux";
-import {Route, RouteComponentProps, Switch, withRouter} from "react-router";
+import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router";
 import Loginization from "../Loginization/Loginization";
+import RegisterPage from "../Loginization/components/Registration";
 
 interface I_props {
     title?: string
@@ -44,18 +42,23 @@ class Main extends Component<I_MainProps> {
     }
 
     render() {
-        let {appError, isFetching, error} = this.props;
+        let {appError, isFetching} = this.props;
         return (
             <div>
                 <Header alert={appError} isAuth={false} logOut={()=>{alert('logout')}}/>
 
                 <div className={style.mainWrapper}>
-                <h1>asd</h1>
-                    <Switch>
-                        <Route path="/catalog" component={Preloader}/>
-{/*                        <Route path="*" render={() => <div>Error 404</div>}/>*/}
-                        <Route path="/login" render={() => <Loginization />}/>
-                    </Switch>
+                    { isFetching ?
+                            <Preloader />
+                    :
+                        <Switch>
+                            <Route exact path="/"
+                                   render={() => <Redirect to={"/register"}/>}/>
+                            <Route path="/login" render={() => <Loginization/>}/>
+                            <Route path="/register" render={() => <RegisterPage />}/>
+                            <Route path="*" render={() => <div>Error 404</div>}/>
+                        </Switch>
+                    }
                 </div>
 
                 <Footer/>

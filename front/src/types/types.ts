@@ -20,3 +20,7 @@ export interface I_userSessionData extends I_authState{
     name: string | null,
 }
 
+export interface I_registerData {
+    email: string, password: string
+}
+

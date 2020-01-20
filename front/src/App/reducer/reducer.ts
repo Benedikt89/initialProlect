@@ -2,7 +2,7 @@ import {I_appState} from "../../types/types";
 import {
 
     I_appActions,
-   SET_ERROR, SET_FETCH_SUCCESS,
+    SET_ERROR, SET_FETCH_SUCCESS,
     SET_IS_FETCHING
 } from "./actions";
 
@@ -25,7 +25,7 @@ const reducer = (state: I_appState = initialState, action: I_appActions) => {
                 ...state,
                 error: action.message
             };
-        //adding fetched game data to state
+        //adding fetched data to state
         case SET_FETCH_SUCCESS:
             return {
                 ...state,

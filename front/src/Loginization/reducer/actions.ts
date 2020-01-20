@@ -1,7 +1,10 @@
 import {Dispatch} from "redux";
 import {AppStateType} from "../../redux/store";
-import {I_userSessionData} from "../../types/types";
+import {I_registerData, I_userSessionData} from "../../types/types";
 import {authAPI} from "./api";
+import {ThunkDispatch} from "redux-thunk";
+import {_setError, _toggleIsFetching, I_appActions} from "../../App/reducer/actions";
+import {FormAction, stopSubmit} from "redux-form";
 
 type GetStateType = () => AppStateType
 
@@ -41,4 +44,27 @@ export const loginUserThunk = (email: string, password: string, rememberMe: bool
                 console.log("actions.ts error: "+err)
             })
     }
-}
+};
+
+export const registerUser = (registerData: I_registerData) =>
+    async (dispatch: ThunkDispatch<{}, {}, I_authActions| I_appActions | FormAction>, getState: GetStateType) => {
+        try {
+            dispatch(_toggleIsFetching(true));
+            let res = await authAPI.registerUser(registerData);
+            if (res.success) {
+                dispatch(_setAuthUserData(res.addedUser));
+            }
+            dispatch(_toggleIsFetching(false));
+        } catch (err) {
+            console.log(err);
+            //if its no data return
+            if (err.response && err.response.config.url === "api.user.getstate" && err.response.status === 403) {
+                dispatch(stopSubmit('registration', {_error: err.message}));
+                dispatch(_toggleIsFetching(false));
+                dispatch(_setError(null));
+            } else {
+                dispatch(_setError('network Problems'));
+                dispatch(_toggleIsFetching(false));
+            }
+        }
+    };
