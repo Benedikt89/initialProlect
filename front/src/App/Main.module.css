@@ -9,6 +9,7 @@
     flex-direction: column;
 
     min-height: 120vh;
+    margin-top: 2rem;
 }
 
 .warning

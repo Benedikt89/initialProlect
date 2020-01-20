@@ -8,7 +8,7 @@ const RegisterUserForm = ({handleSubmit, pristine, submitting, error}: any) => {
 
     return (
         <form className={style.formControl} onSubmit={handleSubmit}>
-            <Field name="username"
+            <Field name="email"
                    type="text"
                    component={renderField}
                    label="Имя Пользователя"

@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './Header.module.css';
+import {Link} from "react-router-dom";
 
 interface I_props {
     alert?: string | null
@@ -11,21 +12,26 @@ function Header(props: I_props) {
 
     return (
         <header className={style.headerWrapper}>
-            {props.isAuth && <div className={style.navContainer}>
-                <div onClick={props.logOut}>
+            <div className={style.navContainer}>
+                <Link to={"/login"}>
                     <div className={style.item}>
-                        Exit
+                        LogIn
                     </div>
-                </div>
+                </Link>
                 <div>
                     <div className={style.item} onClick={props.logOut}>
                         LogOut
                     </div>
                 </div>
-            </div>}
+                <Link to={"/register"}>
+                    <div className={style.item} >
+                        Register
+                    </div>
+                </Link>
+            </div>
             {props.alert ? <span>{props.alert}</span> :
                 <div className={style.inform}>
-                    <span>Turns</span>
+                    <span>Login modules Project</span>
                 </div>
             }
         </header>
