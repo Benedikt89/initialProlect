@@ -17,8 +17,8 @@ export interface I_authUserData {
 }
 export interface I_authState {
     userData: I_authUserData,
-    isFetching: boolean,
-    error: string | null,
+    isFetchingAuth: boolean,
+    errorAuth: string | null,
 }
 export interface I_userSessionData extends I_authState{
     name: string | null,

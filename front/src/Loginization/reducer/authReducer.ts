@@ -17,8 +17,8 @@ let initialState: I_authState = {
         created: null,
         updated: null
     },
-    isFetching: false,
-    error: null,
+    isFetchingAuth: false,
+    errorAuth: null,
 }
 
 const authReducer = (state: I_authState = initialState, action: I_authActions) => {
