@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {AppStateType} from "../../redux/store";
-import {I_registerData, I_userSessionData} from "../../types/types";
+import {I_registerData, I_authState, I_loginData} from "../../types/types";
 import {authAPI} from "./api";
 import {ThunkDispatch} from "redux-thunk";
 import {_setError, _toggleIsFetching, I_appActions} from "../../App/reducer/actions";
@@ -18,7 +18,7 @@ export type I_authActions =
 //interfaces
 interface I_userSessionDataAC {
     type: typeof SET_USER_DATA,
-    payload: I_userSessionData
+    payload: I_authState
 }
 
 interface I_logoutUserSuccessAC {
@@ -27,27 +27,34 @@ interface I_logoutUserSuccessAC {
 }
 
 
-
 //Internal ACTIONS CREATORS
 
-export const _setAuthUserData = (payload: I_userSessionData): I_userSessionDataAC => ({type: SET_USER_DATA, payload});
+export const _setAuthUserData = (payload: any): I_userSessionDataAC => ({type: SET_USER_DATA, payload});
+
 
 //EXTERNAL ACTIONS
 
-export const loginUserThunk = (email: string, password: string, rememberMe: boolean) => {
-    return (dispatch: Dispatch) => {
-        authAPI.loginUser(email, password, rememberMe)
-            .then((response:any) => {
-                dispatch(_setAuthUserData(response))
-            })
-            .catch((err:any) => {
-                console.log("actions.ts error: "+err)
-            })
+export const loginUserThunk = (data: I_loginData) =>
+    async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
+    try{
+        console.log(data);
+        let asd = getState().auth.name;
+        let response = await authAPI.loginUser(data);
+        if (response) {
+            dispatch(_setAuthUserData(response));
+        }
+        debugger
+
     }
-};
+    catch (err) {
+        debugger
+        console.log("actions.ts error - " + err)
+    }
+    };
+
 
 export const registerUser = (registerData: I_registerData) =>
-    async (dispatch: ThunkDispatch<{}, {}, I_authActions| I_appActions | FormAction>, getState: GetStateType) => {
+    async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
         try {
             dispatch(_toggleIsFetching(true));
             let res = await authAPI.registerUser(registerData);

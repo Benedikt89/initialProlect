@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {AppStateType} from "../../redux/store";
 import {fetchData} from "./api-actions";
-import {I_dataToStore, I_userSessionData} from "../../types/types";
+import {I_dataToStore} from "../../types/types";
 import {ThunkDispatch} from "redux-thunk";
 import {authAPI,responseType} from "./api";
 

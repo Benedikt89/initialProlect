@@ -22,7 +22,7 @@ const RegisterUserForm = ({handleSubmit, pristine, submitting, error}: any) => {
             />
             {error && <span className={style.mainErrorMessage}>{error}</span>}
 
-            <button type="submit" disabled={pristine || submitting}>Log In</button>
+            <button type="submit" disabled={pristine || submitting}>Sign Up</button>
         </form>
     )
 };

@@ -13,6 +13,9 @@ let initialState: I_authState = {
         token: null,
         tokenDeathTime: null,
         rememberMe: null,
+        name: null,
+        created: null,
+        updated: null
     },
     isFetching: false,
     error: null,

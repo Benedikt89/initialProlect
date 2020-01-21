@@ -23,6 +23,11 @@ function Header(props: I_props) {
                         LogOut
                     </div>
                 </div>
+                <Link to={"/profile"}>
+                    <div className={style.item}>
+                        Profile
+                    </div>
+                </Link>
                 <Link to={"/register"}>
                     <div className={style.item} >
                         Register

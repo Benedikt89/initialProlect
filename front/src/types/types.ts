@@ -22,9 +22,17 @@ export interface I_authState {
 }
 export interface I_userSessionData extends I_authState{
     name: string | null,
+    rememberMe: boolean | null
+    created: string | null,
+    updated: string | null
 }
+
 
 export interface I_registerData {
     email: string, password: string
+}
+
+export interface I_loginData extends I_registerData{
+    rememberMe: boolean
 }
 

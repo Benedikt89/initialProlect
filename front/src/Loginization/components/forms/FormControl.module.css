@@ -54,3 +54,8 @@
 {
     border: solid #0acc00 1px;
 }
+
+.container
+{
+    composes: container from '../../../App.css';
+}
