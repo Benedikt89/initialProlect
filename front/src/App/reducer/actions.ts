@@ -48,6 +48,6 @@ export const fetchAll = () =>
     async (dispatch: ThunkDispatch<{}, {}, any>, getState: GetStateType) => {
         setTimeout(async () => {
                 await Promise.all([dispatch(fetchData())]);
-            dispatch(_setError(''));
+            dispatch(_setError(null));
         }, 1000)
     };

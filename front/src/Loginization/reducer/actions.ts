@@ -10,7 +10,7 @@ type GetStateType = () => AppStateType
 
 
 export const LOGOUT_USER_SUCCESS = 'app/auth/LOGOUT_USER_SUCCESS';
-export const SET_USER_DATA = 'app/auth/SET_USER_DATA'
+export const SET_USER_DATA = 'app/auth/SET_USER_DATA';
 
 export type I_authActions =
     I_userSessionDataAC | I_logoutUserSuccessAC

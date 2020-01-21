@@ -5,7 +5,7 @@ export interface I_appState {
 export interface I_dataToStore {
     asd: any
 }
-export interface I_authState {
+export interface I_authUserData {
     _id: string | null,
     email: string | null,
     password: string | null,
@@ -15,7 +15,11 @@ export interface I_authState {
     tokenDeathTime: number | null,
     rememberMe: boolean | null
 }
-
+export interface I_authState {
+    userData: I_authUserData,
+    isFetching: boolean,
+    error: string | null,
+}
 export interface I_userSessionData extends I_authState{
     name: string | null,
 }
