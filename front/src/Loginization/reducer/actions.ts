@@ -38,7 +38,6 @@ export const loginUserThunk = (data: I_loginData) =>
     async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
     try{
         console.log(data);
-        let asd = getState().auth.name;
         let response = await authAPI.loginUser(data);
         if (response) {
             dispatch(_setAuthUserData(response));
