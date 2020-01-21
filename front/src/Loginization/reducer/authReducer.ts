@@ -14,8 +14,8 @@ let initialState: I_authState = {
         tokenDeathTime: null,
         rememberMe: null,
     },
-    isFetching: false,
-    error: null,
+    isFetchingAuth: false,
+    errorAuth: null,
 }
 
 const authReducer = (state: I_authState = initialState, action: I_authActions) => {
