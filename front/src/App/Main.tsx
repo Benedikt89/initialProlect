@@ -11,6 +11,8 @@ import {connect} from "react-redux";
 import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router";
 import Loginization from "../Loginization/Loginization";
 import RegisterPage from "../Loginization/components/Registration";
+import ProfilePage from "../Profile/ProfilePage";
+import RecoverPasswordPage from "../RecoverPasswordPage/RecoverPasswordPage";
 
 interface I_props {
     title?: string
@@ -56,6 +58,8 @@ class Main extends Component<I_MainProps> {
                                    render={() => <Redirect to={"/register"}/>}/>
                             <Route path="/login" render={() => <Loginization/>}/>
                             <Route path="/register" render={() => <RegisterPage />}/>
+                            <Route path="/profile" render={() => <ProfilePage/>}/>
+                            <Route path="/forgotPassword" render={() => <RecoverPasswordPage/>}/>
                             <Route path="*" render={() => <div>Error 404</div>}/>
                         </Switch>
                     }

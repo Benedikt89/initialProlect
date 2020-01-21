@@ -13,14 +13,18 @@ export interface I_authState {
     __v: number | null,
     token: string | null,
     tokenDeathTime: number | null,
+    name: string | null,
     rememberMe: boolean | null
+    created: string | null,
+    updated: string | null
 }
 
-export interface I_userSessionData extends I_authState{
-    name: string | null,
-}
 
 export interface I_registerData {
     email: string, password: string
+}
+
+export interface I_loginData extends I_registerData{
+    rememberMe: boolean
 }
 
