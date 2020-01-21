@@ -16,11 +16,11 @@ export interface I_authUserData {
     rememberMe: boolean | null
 }
 export interface I_authState {
-    userData: I_authUserData,
+    userData: I_userSessionData,
     isFetchingAuth: boolean,
     errorAuth: string | null,
 }
-export interface I_userSessionData extends I_authState{
+export interface I_userSessionData extends I_authUserData{
     name: string | null,
     rememberMe: boolean | null
     created: string | null,
