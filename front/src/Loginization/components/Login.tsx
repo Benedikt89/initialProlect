@@ -1,12 +1,12 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
 import {connect} from "react-redux";
-import {loginUserThunk} from "./reducer/actions";
-import style from "./components/forms/FormControl.module.css";
+import {loginUserThunk} from "../reducer/actions";
+import style from "./forms/FormControl.module.css";
 import {Link} from "react-router-dom";
-import {email, minLength4, required} from "./components/forms/FormElements/validators";
+import {email, minLength4, required} from "./forms/FormElements/validators";
 
-const LoginizationForm: React.FC = (props: any) => {
+const LoginForm: React.FC = (props: any) => {
     return (
         <form className={style.formControl} onSubmit={props.handleSubmit}>
             <h2>Authorization page</h2>
@@ -40,21 +40,21 @@ const LoginizationForm: React.FC = (props: any) => {
             </Link>
     </form>
     )
-}
+};
 
-const Loginization: React.FC = ({loginUserThunk}:any) => {
+const LoginPage: React.FC = ({loginUserThunk}:any) => {
 
     const onSubmit = (formData: any) => {
-        console.log(formData)
+        console.log(formData);
         loginUserThunk({email: formData.email, password: formData.password, rememberMe: formData.rememberMe = false})
-    }
+    };
 
     return (<div className={style.container} >
-        <LoginPage onSubmit={onSubmit}/>
+        <LoginReduxForm onSubmit={onSubmit}/>
     </div>)
-}
+};
 
-const LoginPage = reduxForm({form: 'login'})(LoginizationForm)
+const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
 
-export default connect(null,{loginUserThunk})(Loginization);
+export default connect(null,{loginUserThunk})(LoginPage);
 

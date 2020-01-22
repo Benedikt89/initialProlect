@@ -18,13 +18,22 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser}: I_connectedPro
     const onUserSubmit = (formData: any) => {
         registerUser({email: formData.email, password: formData.password})
     };
-    const responseFacebook = (response:any) => {
-        debugger;
-        console.log(response);
+    const responseFacebook = (res:any) => {
+        let userIncomingFacebook = {
+            accessToken: res.accessToken,
+            data_access_expiration_time: res.data_access_expiration_time,
+            email: res.email,
+            expiresIn: res.expiresIn,
+            id: res.id,
+            name: res.name,
+            picture: {...res.picture},
+            signedRequest: res.signedRequest,
+            userID: res.userID
+        };
+        console.log(userIncomingFacebook);
     };
 
     const responseGoogle = (response:any) => {
-        debugger;
         console.log(response);
     };
     let error = null;
@@ -32,7 +41,7 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser}: I_connectedPro
     return (
 
         <div className={style.container}>
-            {error? <div>
+            {!error? <div>
                 <h2>Please Register</h2>
                 <RegisterUserForm onSubmit={onUserSubmit}/>
 
@@ -51,7 +60,9 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser}: I_connectedPro
                     buttonText="LOGIN WITH GOOGLE"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
                 />
+
             </div> : <span>{error}</span>}
 
         </div>

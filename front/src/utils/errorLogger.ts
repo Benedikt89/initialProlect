@@ -13,4 +13,15 @@ export const APIerrorLogger = (error: any) => {
     } else {
         console.warn('Unknown Error', error.message);
     }
-}
+};
+
+export const componentErrorLogger = (error: any) => {
+    if (error.message) console.log(error.message);
+    if (error.stack) {
+        console.warn(error.stack)
+    }
+    else {
+        console.warn(error);
+        debugger;
+    }
+};

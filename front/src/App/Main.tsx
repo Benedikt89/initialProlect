@@ -9,10 +9,15 @@ import {getAppError, getIsFetching} from "./reducer/selectors";
 import Preloader from "./Common/Preloader";
 import {connect} from "react-redux";
 import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router";
-import Loginization from "../Loginization/Loginization";
+import Loginization from "../Loginization/components/Login";
 import RegisterPage from "../Loginization/components/Registration";
 import ProfilePage from "../Profile/ProfilePage";
-import RecoverPasswordPage from "../RecoverPasswordPage/RecoverPasswordPage";
+import RecoverPasswordPage from "../Loginization/components/RecoverPasswordPage";
+import {withErrorBoundary} from "../Hoc/ErrorBoundary";
+import {ErrorMessage} from "./Common/ErrorMessage";
+
+const ErrorMessageWithErrorBoundary =
+    withErrorBoundary(ErrorMessage);
 
 interface I_props {
     title?: string
@@ -36,6 +41,7 @@ class Main extends Component<I_MainProps> {
 
     componentDidMount() {
     }
+
     componentDidUpdate(prevProps: Readonly<I_MainProps>, prevState: Readonly<{}>, snapshot?: any): void {
         //fetch after login
         if (this.props.isAuth !== prevProps.isAuth) {
@@ -47,17 +53,23 @@ class Main extends Component<I_MainProps> {
         let {appError, isFetching} = this.props;
         return (
             <div>
-                <Header alert={appError} isAuth={false} logOut={()=>{alert('logout')}}/>
+                <Header alert={appError} isAuth={false} logOut={() => {
+                    alert('logout')
+                }}/>
 
                 <div className={style.mainWrapper}>
-                    { isFetching ?
-                            <Preloader />
-                    :
+                    {isFetching ?
+                        <Preloader/>
+                        :
                         <Switch>
                             <Route exact path="/"
                                    render={() => <Redirect to={"/register"}/>}/>
                             <Route path="/login" render={() => <Loginization/>}/>
-                            <Route path="/register" render={() => <RegisterPage />}/>
+                            <Route path="/register" render={() =>
+                                <ErrorMessageWithErrorBoundary>
+                                    <RegisterPage/>
+                                </ErrorMessageWithErrorBoundary>
+                            }/>
                             <Route path="/profile" render={() => <ProfilePage/>}/>
                             <Route path="/forgotPassword" render={() => <RecoverPasswordPage/>}/>
                             <Route path="*" render={() => <div>Error 404</div>}/>
@@ -82,6 +94,6 @@ const mapStateToProps = (state: AppStateType): I_connectedProps => {
 
 let ComposedComponent = connect(
     mapStateToProps, {fetchData}
-    )(Main);
+)(Main);
 
 export default withRouter(ComposedComponent);
