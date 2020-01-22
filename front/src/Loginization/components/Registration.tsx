@@ -6,6 +6,7 @@ import {registerUser} from "../reducer/actions";
 import style from "./Registration.module.css";
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
+import { useAuth0 } from "./parts/react-auth0";
 
 const FACEBOOK_APP_ID ="475895089749736";
 const GOOGLE_CLIENT_ID = "127673509875-96uj74lirofonmq3gbdo96hp8c8asg2d.apps.googleusercontent.com";
