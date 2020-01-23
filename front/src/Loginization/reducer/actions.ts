@@ -5,6 +5,8 @@ import {authAPI} from "./api";
 import {ThunkDispatch} from "redux-thunk";
 import {_setError, _toggleIsFetching, I_appActions} from "../../App/reducer/actions";
 import {FormAction, stopSubmit} from "redux-form";
+import createAuth0Client from "@auth0/auth0-spa-js";
+import config from "../../auth_config.json";
 
 type GetStateType = () => AppStateType
 
@@ -72,5 +74,45 @@ export const registerUser = (registerData: I_registerData) =>
                 dispatch(_setError('network Problems'));
                 dispatch(_toggleIsFetching(false));
             }
+        }
+    };
+
+export const registerWithAuth0 = () =>
+    async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
+        try {
+            dispatch(_toggleIsFetching(true));
+
+            const initAuth0 = async () => {
+                var initOptions = {
+                    domain: config.domain,
+                    client_id: config.clientId,
+                    redirect_uri: window.location.origin
+                };
+                debugger;
+                const auth0FromHook = await createAuth0Client(initOptions);
+                console.log(auth0FromHook);
+
+                if (window.location.search.includes("code=")) {
+                    const { appState } = await auth0FromHook.handleRedirectCallback();
+                    console.log(appState);
+                }
+
+                const isAuthenticated = await auth0FromHook.isAuthenticated();
+
+                console.log(isAuthenticated);
+
+                if (isAuthenticated) {
+                    const user = await auth0FromHook.getUser();
+                    console.log(user);
+                }
+            };
+            initAuth0();
+
+            dispatch(_toggleIsFetching(false));
+        } catch (err) {
+            console.log(err);
+            //if its no data return
+            dispatch(_setError('network Problems'));
+            dispatch(_toggleIsFetching(false));
         }
     };

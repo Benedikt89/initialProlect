@@ -2,20 +2,20 @@ import React from "react";
 import RegisterUserForm from "./forms/RegisterForm";
 import {I_registerData} from "../../types/types";
 import {connect} from "react-redux";
-import {registerUser} from "../reducer/actions";
+import {registerUser, registerWithAuth0} from "../reducer/actions";
 import style from "./Registration.module.css";
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
-import { useAuth0 } from "./parts/react-auth0";
 
 const FACEBOOK_APP_ID ="475895089749736";
 const GOOGLE_CLIENT_ID = "127673509875-96uj74lirofonmq3gbdo96hp8c8asg2d.apps.googleusercontent.com";
 
 interface I_connectedProps {
     registerUser: (data: I_registerData) => void
+    registerWithAuth0: () => void
 }
 
-const RegisterPage: React.FC<I_connectedProps> = ({registerUser}: I_connectedProps) => {
+const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAuth0}: I_connectedProps) => {
     const onUserSubmit = (formData: any) => {
         registerUser({email: formData.email, password: formData.password})
     };
@@ -64,10 +64,13 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser}: I_connectedPro
                     cookiePolicy={'single_host_origin'}
                 />
 
+                <br />
+
+                <button onClick={registerWithAuth0}>auth0</button>
             </div> : <span>{error}</span>}
 
         </div>
     )
 };
 
-export default connect(null, {registerUser})(RegisterPage);
+export default connect(null, {registerUser, registerWithAuth0})(RegisterPage);
