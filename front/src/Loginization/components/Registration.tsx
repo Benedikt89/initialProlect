@@ -9,6 +9,7 @@ import GoogleLogin from 'react-google-login';
 
 
 import {FACEBOOK_APP_ID, GOOGLE_CLIENT_ID} from '../../loginConfig';
+import WithModal from "../../Modals/Modal";
 
 interface I_connectedProps {
     registerUser: (data: I_registerData) => void
@@ -55,14 +56,16 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAut
                 />
 
                 <br />
-
-                <GoogleLogin
-                    clientId={GOOGLE_CLIENT_ID} //CLIENT ID
-                    buttonText="LOGIN WITH GOOGLE"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                />
+                <WithModal>
+                    <GoogleLogin
+                        clientId={GOOGLE_CLIENT_ID} //CLIENT ID
+                        buttonText="LOGIN WITH GOOGLE"
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                    />
+                    <h2>THIS IS PROPS.CHILDREN</h2>
+                </WithModal>
 
             </div> : <span>{error}</span>}
 
