@@ -12,9 +12,11 @@ import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-ro
 import Loginization from "../Loginization/components/Login";
 import RegisterPage from "../Loginization/components/Registration";
 import ProfilePage from "../Profile/ProfilePage";
-import RecoverPasswordPage from "../Loginization/components/RecoverPasswordPage";
+import RecoverPassword from "../Loginization/components/RecoverPasswordPage";
 import {withErrorBoundary} from "../Hoc/ErrorBoundary";
 import {ErrorMessage} from "./Common/ErrorMessage";
+import {getIsAuth} from "../Loginization/reducer/selectors";
+import {_logOut} from "../Loginization/reducer/actions";
 
 const ErrorMessageWithErrorBoundary =
     withErrorBoundary(ErrorMessage);
@@ -24,14 +26,15 @@ interface I_props {
 }
 
 interface I_connectedProps {
-    isAuth: boolean,
+    isAuth: boolean | null
     error: string | null
     appError: string | null
     isFetching: boolean
 }
 
 interface I_dispatchedProps {
-    fetchData: () => void
+    fetchData: () => void,
+    _logOut: () => void
 }
 
 interface I_MainProps extends I_props, I_connectedProps, I_dispatchedProps, RouteComponentProps<{}> {
@@ -53,9 +56,7 @@ class Main extends Component<I_MainProps> {
         let {appError, isFetching} = this.props;
         return (
             <div>
-                <Header alert={appError} isAuth={false} logOut={() => {
-                    alert('logout')
-                }}/>
+                <Header alert={appError} isAuth={this.props.isAuth} logOut={this.props._logOut}/>
 
                 <div className={style.mainWrapper}>
                     {isFetching ?
@@ -65,13 +66,13 @@ class Main extends Component<I_MainProps> {
                             <Route exact path="/"
                                    render={() => <Redirect to={"/register"}/>}/>
                             <Route path="/login" render={() => <Loginization/>}/>
-                            <Route path="/register" render={() =>
+{/*                            <Route path="/register" render={() =>
                                 <ErrorMessageWithErrorBoundary>
                                     <RegisterPage/>
                                 </ErrorMessageWithErrorBoundary>
-                            }/>
+                            }/>*/}
                             <Route path="/profile" render={() => <ProfilePage/>}/>
-                            <Route path="/forgotPassword" render={() => <RecoverPasswordPage/>}/>
+                            <Route path="/forgotPassword" render={() => <RecoverPassword/>}/>
                             <Route path="*" render={() => <div>Error 404</div>}/>
                         </Switch>
                     }
@@ -85,7 +86,7 @@ class Main extends Component<I_MainProps> {
 
 const mapStateToProps = (state: AppStateType): I_connectedProps => {
     return {
-        isAuth: false,
+        isAuth: getIsAuth(state),
         error: null,
         appError: getAppError(state),
         isFetching: getIsFetching(state),
@@ -93,7 +94,7 @@ const mapStateToProps = (state: AppStateType): I_connectedProps => {
 };
 
 let ComposedComponent = connect(
-    mapStateToProps, {fetchData}
+    mapStateToProps, {fetchData,_logOut}
 )(Main);
 
 export default withRouter(ComposedComponent);

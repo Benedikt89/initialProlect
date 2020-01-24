@@ -1,6 +1,6 @@
 import axios from "axios";
 import {APIerrorLogger} from "../../utils/errorLogger";
-import {I_loginData, I_registerData} from "../../types/types";
+import {I_loginData, I_registerData, I_userSessionData} from "../../types/types";
 
 const instance = axios.create({
     baseURL: "https://dry-forest-56016.herokuapp.com/auth"
@@ -8,14 +8,14 @@ const instance = axios.create({
 });
 
 export const authAPI = {
-    async loginUser(data: I_loginData) {
+    async loginUser(data: I_loginData): Promise<I_userSessionData> {
         try {
-            debugger
             let response = await instance.post(`/login`, data)
-            debugger
-            return response.data
+            return new Promise((resolve,reject)=>{
+                resolve(response.data)
+            })
         } catch (err) {
-            debugger;
+            throw err
             APIerrorLogger(err);
         }
 
@@ -32,6 +32,22 @@ export const authAPI = {
         } catch (err) {
             APIerrorLogger(err);
             throw new Error('unknown Error');
+        }
+    },
+    async recoverPassword(email: string) {
+        try
+        {
+            debugger
+            let response = await instance.post('/forgot', {email})
+            debugger
+            return new Promise((resolve,reject)=>{
+                resolve(response)
+            })
+        }
+         catch (err) {
+            APIerrorLogger(err);
+            console.log("HERE:"+err)
+            debugger
         }
     },
 };

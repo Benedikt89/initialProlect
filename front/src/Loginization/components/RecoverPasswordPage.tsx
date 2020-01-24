@@ -2,8 +2,13 @@ import React from "react";
 import {connect} from "react-redux";
 import {reduxForm, Field} from "redux-form";
 import {compose} from "redux";
+import {recoverPassword} from "../reducer/actions";
+
 
 const RecoverPasswordForm: React.FC = (props: any) => {
+
+
+
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
@@ -26,7 +31,15 @@ const mapStateToProps = (state: any) => {
     }
 }
 
+const RecoverPassword = ({recoverPassword}: any) => {
+    const onSubmit = (dataForm: any) => {
+        let message = recoverPassword(dataForm.email)
+        alert(dataForm)
+    }
+    return <RecoverPasswordPage onSubmit={onSubmit}/>
+}
+
 const RecoverPasswordPage = reduxForm({form: 'recoverPasswordForm'})(RecoverPasswordForm)
 
 
-export default connect(mapStateToProps,{})(RecoverPasswordPage);
+export default connect(mapStateToProps,{recoverPassword})(RecoverPassword);

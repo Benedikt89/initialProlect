@@ -1,6 +1,6 @@
 export interface I_appState {
     isFetching: boolean,
-    error: null | string,
+    error: null | string
 }
 export interface I_dataToStore {
     asd: any
@@ -19,6 +19,7 @@ export interface I_authState {
     userData: I_userSessionData,
     isFetchingAuth: boolean,
     errorAuth: string | null,
+    isAuth: boolean | null
 }
 export interface I_userSessionData extends I_authUserData{
     name: string | null,

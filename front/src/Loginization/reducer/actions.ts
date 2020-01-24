@@ -1,12 +1,12 @@
 import {Dispatch} from "redux";
 import {AppStateType} from "../../redux/store";
-import {I_registerData, I_authState, I_loginData} from "../../types/types";
+import {I_registerData, I_authState, I_loginData, I_userSessionData} from "../../types/types";
 import {authAPI} from "./api";
 import {ThunkDispatch} from "redux-thunk";
 import {_setError, _toggleIsFetching, I_appActions} from "../../App/reducer/actions";
 import {FormAction, stopSubmit} from "redux-form";
-import createAuth0Client from "@auth0/auth0-spa-js";
-import config from "../../auth_config.json";
+/*import createAuth0Client from "@auth0/auth0-spa-js";
+import config from "../../auth_config.json";*/
 
 type GetStateType = () => AppStateType
 
@@ -20,18 +20,18 @@ export type I_authActions =
 //interfaces
 interface I_userSessionDataAC {
     type: typeof SET_USER_DATA,
-    payload: I_authState
+    payload: I_userSessionData
 }
 
 interface I_logoutUserSuccessAC {
-    type: typeof LOGOUT_USER_SUCCESS,
-    payload: any                //// !!!
+    type: typeof LOGOUT_USER_SUCCESS
 }
 
 
 //Internal ACTIONS CREATORS
 
-export const _setAuthUserData = (payload: any): I_userSessionDataAC => ({type: SET_USER_DATA, payload});
+export const _setAuthUserData = (payload: I_userSessionData): I_userSessionDataAC => ({type: SET_USER_DATA, payload});
+export const _logOut = ():I_logoutUserSuccessAC => ({type: LOGOUT_USER_SUCCESS})
 
 
 //EXTERNAL ACTIONS
@@ -41,11 +41,22 @@ export const loginUserThunk = (data: I_loginData) =>
     try{
         console.log(data);
         let response = await authAPI.loginUser(data);
-        if (response) {
-            dispatch(_setAuthUserData(response));
+        let resData = {
+                _id: response._id,
+                email: response.email,
+                password: response.password,
+                isAdmin: response.isAdmin ? response.isAdmin : null,
+                __v: response.__v,
+                token: response.token,
+                tokenDeathTime: response.tokenDeathTime,
+                rememberMe: response.rememberMe,
+                name: response.name,
+                created: response.created,
+                updated: response.updated
+            }
+        if (resData) {
+            await dispatch(_setAuthUserData(resData));
         }
-        debugger
-
     }
     catch (err) {
         debugger
@@ -53,6 +64,19 @@ export const loginUserThunk = (data: I_loginData) =>
     }
     };
 
+export const recoverPassword = (email: string) =>
+    async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
+        try{
+            debugger
+            let result = await authAPI.recoverPassword(email);
+            debugger
+            return result
+        }
+        catch (err) {
+            debugger
+            console.log("recoverPassword error - " + err)
+        }
+    };
 
 export const registerUser = (registerData: I_registerData) =>
     async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
@@ -77,7 +101,7 @@ export const registerUser = (registerData: I_registerData) =>
         }
     };
 
-export const registerWithAuth0 = () =>
+/*export const registerWithAuth0 = () =>
     async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
         try {
             dispatch(_toggleIsFetching(true));
@@ -115,4 +139,4 @@ export const registerWithAuth0 = () =>
             dispatch(_setError('network Problems'));
             dispatch(_toggleIsFetching(false));
         }
-    };
+    };*/
