@@ -12,12 +12,13 @@ const checkAuth = require("./middleware/check-auth");
 export interface I_loginResponce {
     id: string,
     photo?: string,
-    birth_date?: Date,
+    birth_date?: Date | string,
     createdAt?: Date,
     firstName?: string,
     lastName?: string,
     email: string,
 }
+
 router.get('/auth', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = req.body;
@@ -92,9 +93,7 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
             res.cookie("x-access-token" , token, {maxAge: 9999999, sameSite: 'None'});
             return res.status(200).json({
                 message: 'Auth Successful',
-                userInfo: {
-                    userName: userFind[0].email,
-                }
+                userInfo: userFind[0]
             })
         }
     } catch (err) {

@@ -2,7 +2,7 @@ import React from "react";
 import RegisterUserForm from "./forms/RegisterForm";
 import {I_registerData} from "../../types/types";
 import {connect} from "react-redux";
-import {registerUser} from "../reducer/actions";
+import {registerUser, registerWithAuth0} from "../reducer/actions";
 import style from "./Registration.module.css";
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
@@ -64,13 +64,10 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAut
                     cookiePolicy={'single_host_origin'}
                 />
 
-                <br />
-
-                <button onClick={registerWithAuth0}>auth0</button>
             </div> : <span>{error}</span>}
 
         </div>
     )
 };
 
-export default connect(null, {registerUser/*, registerWithAuth0*/})(RegisterPage);
+export default connect(null, {registerUser, registerWithAuth0})(RegisterPage);

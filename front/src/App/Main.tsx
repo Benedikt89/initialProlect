@@ -66,11 +66,12 @@ class Main extends Component<I_MainProps> {
                             <Route exact path="/"
                                    render={() => <Redirect to={"/register"}/>}/>
                             <Route path="/login" render={() => <Loginization/>}/>
-{/*                            <Route path="/register" render={() =>
+
+                            <Route path="/register" render={() =>
                                 <ErrorMessageWithErrorBoundary>
                                     <RegisterPage/>
                                 </ErrorMessageWithErrorBoundary>
-                            }/>*/}
+                            }/>
                             <Route path="/profile" render={() => <ProfilePage/>}/>
                             <Route path="/forgotPassword" render={() => <RecoverPassword/>}/>
                             <Route path="*" render={() => <div>Error 404</div>}/>

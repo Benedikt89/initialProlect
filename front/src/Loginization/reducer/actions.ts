@@ -101,34 +101,35 @@ export const registerUser = (registerData: I_registerData) =>
         }
     };
 
-/*export const registerWithAuth0 = () =>
+export const registerWithAuth0 = () =>
     async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
         try {
             dispatch(_toggleIsFetching(true));
 
             const initAuth0 = async () => {
-                var initOptions = {
-                    domain: config.domain,
-                    client_id: config.clientId,
-                    redirect_uri: window.location.origin
-                };
-                debugger;
-                const auth0FromHook = await createAuth0Client(initOptions);
+                // var initOptions = {
+                //     domain: config.domain,
+                //     client_id: config.clientId,
+                //     redirect_uri: window.location.origin
+                // };
+                // debugger;
+                // const auth0FromHook = await createAuth0Client(initOptions);
+                const auth0FromHook = 'asd';
                 console.log(auth0FromHook);
 
-                if (window.location.search.includes("code=")) {
-                    const { appState } = await auth0FromHook.handleRedirectCallback();
-                    console.log(appState);
-                }
-
-                const isAuthenticated = await auth0FromHook.isAuthenticated();
-
-                console.log(isAuthenticated);
-
-                if (isAuthenticated) {
-                    const user = await auth0FromHook.getUser();
-                    console.log(user);
-                }
+                // if (window.location.search.includes("code=")) {
+                //     const { appState } = await auth0FromHook.handleRedirectCallback();
+                //     console.log(appState);
+                // }
+                //
+                // const isAuthenticated = await auth0FromHook.isAuthenticated();
+                //
+                // console.log(isAuthenticated);
+                //
+                // if (isAuthenticated) {
+                //     const user = await auth0FromHook.getUser();
+                //     console.log(user);
+                // }
             };
             initAuth0();
 
@@ -139,4 +140,4 @@ export const registerUser = (registerData: I_registerData) =>
             dispatch(_setError('network Problems'));
             dispatch(_toggleIsFetching(false));
         }
-    };*/
+    };

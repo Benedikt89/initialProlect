@@ -22,11 +22,11 @@ export const usersRepository = {
             ({
                 id: doc.id,
                 email: doc.email,
-                photo: `${ENV_URL + doc.photo}`,
-                birth_date: doc.birth_date,
+                photo: doc.photo ? `${ENV_URL + doc.photo}` : 'no Photo',
+                birth_date: typeof doc.birth_date === Date() ? doc.birth_date : 'no Birth day info',
                 createdAt: doc.createdAt,
-                firstName: doc.firstName,
-                lastName: doc.lastName,
+                firstName: doc.firstName ? doc.firstName : 'no First name',
+                lastName: doc.lastName ? doc.lastName : 'no Last name'
             })))
         } catch (err) {
             console.warn(JSON.parse(JSON.stringify(err)));

@@ -13,7 +13,7 @@ export interface I_mongooseUser extends I_loginInfo, Document {
 }
 
 const userSchema:Schema = new Schema({
-    email: {type: String, required: true, unique: true},
+    email: {type: String, required: true, unique: true, match: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i},
     password: {type: String, required: true},
     firstName: {type: String},
     lastName: {type: String},
