@@ -7,7 +7,6 @@ import mongoose from "mongoose";
 import morgan from 'morgan';
 
 // setup routers
-import products from "./users/products-router";
 import users from "./users/users-router";
 import {imagesPath, staticPath} from "./config";
 
@@ -48,7 +47,6 @@ app.use(session({
 }));
 //routers
 app.use('/api/users', users);
-app.use('/api/pizzas', products);
 
 //Configure
 app.disable("x-powered-by");

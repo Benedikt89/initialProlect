@@ -1,11 +1,9 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
 import bcrypt from 'bcryptjs';
-import {I_userFullInfoType} from "../../../../../core/users-types";
+import {I_loginInfo} from "../../../../../core/users-types";
 
 
-export interface I_mongooseUser extends I_userFullInfoType, Document {
-    email: string,
-    password: string,
+export interface I_mongooseUser extends I_loginInfo, Document {
     id: string,
     photo?: string,
     birth_date?: Date,
@@ -15,11 +13,12 @@ export interface I_mongooseUser extends I_userFullInfoType, Document {
 }
 
 const userSchema:Schema = new Schema({
+    id: new mongoose.Types.ObjectId(),
     email: {type: String, required: true, unique: true, mach: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i},
     password: {type: String, required: true},
     firstName: {type: String},
     lastName: {type: String},
-    createdAt: Date,
+    createdAt: {Date, required: true},
     photo: {type: String},
     birth_date: {type: Date},
 });

@@ -7,8 +7,8 @@ import style from "./Registration.module.css";
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 
-const FACEBOOK_APP_ID ="475895089749736";
-const GOOGLE_CLIENT_ID = "127673509875-96uj74lirofonmq3gbdo96hp8c8asg2d.apps.googleusercontent.com";
+
+import {FACEBOOK_APP_ID, GOOGLE_CLIENT_ID} from '../../loginConfig';
 
 interface I_connectedProps {
     registerUser: (data: I_registerData) => void
