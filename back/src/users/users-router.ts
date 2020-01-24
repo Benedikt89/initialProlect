@@ -66,13 +66,14 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
     try {
         const user = req.body;
         let userFind = await usersRepository.getUser(user.email);
-        if (userFind.length < 1)
-            return res.status(401).json({
+        if (userFind.length < 1) {
+            return res.status(401).send('email or password not correct').json({
                 message: 'email or password not correct'
             });
+        }
         const compared = await bcrypt.compare(user.password, userFind[0].password);
         if (!compared) {
-            return res.status(401).json({
+            return res.status(401).send('email or password not correct').json({
                 message: 'email or password not correct'
             });
         }

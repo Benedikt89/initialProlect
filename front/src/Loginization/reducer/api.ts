@@ -10,11 +10,11 @@ const instance = axios.create({
 });
 
 export const authAPI = {
-    async loginUser(data: I_loginData): Promise<I_userSessionData> {
+    async loginUser(data: I_loginData): Promise<I_userSessionData | any> {
         try {
             let response = await instance.post(`/login`, data);
             return new Promise((resolve,reject)=>{
-                resolve(response.data)
+                resolve(response.data.userInfo)
             })
         } catch (err) {
             APIerrorLogger(err);

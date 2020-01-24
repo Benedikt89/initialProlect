@@ -5,6 +5,14 @@ export interface I_appState {
 export interface I_dataToStore {
     asd: any
 }
+export interface I_eventObject {
+    name: I_eventType,
+    status: boolean,
+    message: string | null
+}
+
+export type I_eventType = 'AUTH_FETCHING' | 'AUTH_ERROR' | 'LOGIN_ERROR' | 'REGISTER_ERROR' | 'AUTH_SUCCESS'
+
 export interface I_authUserData {
     _id: string | null,
     email: string | null,
@@ -17,9 +25,7 @@ export interface I_authUserData {
 }
 export interface I_authState {
     userData: I_userSessionData,
-    isFetchingAuth: boolean,
-    errorAuth: string | null,
-    isAuth: boolean | null
+    events: Array<I_eventObject>
 }
 export interface I_userSessionData extends I_authUserData{
     name: string | null,

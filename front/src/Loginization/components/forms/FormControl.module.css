@@ -58,4 +58,6 @@
 .container
 {
     composes: container from '../../../App.css';
+    flex-direction: column;
+    align-items: center;
 }

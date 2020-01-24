@@ -42,25 +42,35 @@ export const loginUserThunk = (data: I_loginData) =>
         console.log(data);
         let response = await authAPI.loginUser(data);
         let resData = {
-                _id: response._id,
+                // _id: response._id,
+                _id: response.id,
                 email: response.email,
-                password: response.password,
+                password: response.password ? response.password : 'no Password',
                 isAdmin: response.isAdmin ? response.isAdmin : null,
                 __v: response.__v,
-                token: response.token,
-                tokenDeathTime: response.tokenDeathTime,
-                rememberMe: response.rememberMe,
-                name: response.name,
+                token: response.token ? response.token : null,
+                tokenDeathTime: response.tokenDeathTime ? response.tokenDeathTime : null,
+                rememberMe: response.rememberMe ? response.rememberMe : false,
+                // name: response.name,
+                name: response.firstName ? response.firstName : null,
                 created: response.created,
-                updated: response.updated
-            }
+                updated: response.updated ? response.updated : null
+            };
         if (resData) {
             await dispatch(_setAuthUserData(resData));
         }
     }
     catch (err) {
-        debugger
-        console.log("actions.ts error - " + err)
+        console.log(JSON.parse(JSON.stringify(err)));
+        //if its no data return
+        if (err.response.status === 403 || err.response.status === 401) {
+            dispatch(stopSubmit('login', {_error: err.response.data}));
+            dispatch(_toggleIsFetching(false));
+            dispatch(_setError(null));
+        } else {
+            dispatch(_setError('network Problems'));
+            dispatch(_toggleIsFetching(false));
+        }
     }
     };
 
