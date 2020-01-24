@@ -48,7 +48,7 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAut
                 <RegisterUserForm onSubmit={onUserSubmit}/>
 
                 <br />
-
+                <WithModal>
                 <FacebookLogin
                     appId={FACEBOOK_APP_ID} //APP ID
                     fields="name,email,picture"
@@ -56,7 +56,7 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAut
                 />
 
                 <br />
-                <WithModal>
+
                     <GoogleLogin
                         clientId={GOOGLE_CLIENT_ID} //CLIENT ID
                         buttonText="LOGIN WITH GOOGLE"
