@@ -33,22 +33,7 @@ const authReducer = (state: I_authState = initialState, action: I_authActions) =
         case LOGOUT_USER_SUCCESS: {
             return {
                 ...state,
-                userData: {
-                    _id: null,
-                    email: null,
-                    password: null,
-                    isAdmin: null,
-                    __v: null,
-                    token: null,
-                    tokenDeathTime: null,
-                    rememberMe: null,
-                    name: null,
-                    created: null,
-                    updated: null
-                },
-                isFetchingAuth: false,
-                errorAuth: null,
-                isAuth: false
+                ...initialState
             }
         }
         default:

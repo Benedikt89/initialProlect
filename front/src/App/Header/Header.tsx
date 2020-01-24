@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 interface I_props {
     alert?: string | null
-    isAuth: boolean
+    isAuth: boolean | null
     logOut: () => void
 }
 
@@ -13,17 +13,18 @@ function Header(props: I_props) {
     return (
         <header className={style.headerWrapper}>
             <div className={style.navContainer}>
-                {}
-                <Link to={"/login"}>
+                {!props.isAuth
+                    ? <Link to={"/login"}>
                     <div className={style.item}>
                         LogIn
                     </div>
                 </Link>
-                <div>
-                    <div className={style.item} onClick={props.logOut}>
-                        LogOut
+                :<div>
+                        <div className={style.item} onClick={props.logOut}>
+                            LogOut
+                        </div>
                     </div>
-                </div>
+                }
                 <Link to={"/profile"}>
                     <div className={style.item}>
                         Profile

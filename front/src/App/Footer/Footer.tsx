@@ -13,7 +13,7 @@ const Footer = () => {
                             <h4>
                                 CREATED BY
                             </h4>
-                            <p>Constantine Kostka & Alexey Karavaychik</p>
+                            <p>Constantine Kostka</p>
                             <p>г. Минск, ул. Козлова, д. 35</p>
                             <p>https://github.com/Benedikt89</p>
 
@@ -25,7 +25,7 @@ const Footer = () => {
                             </h4>
                             <p>Телефон: +375 29 3743228</p>
                             <p>Телефон: +375 33 6858121</p>
-                            <p>E-mail: constantine.kostka@gmail.com, a.karavaychik@gmail.com</p>
+                            <p>E-mail: constantine.kostka@gmail.com</p>
                             <p>Сайт: https://benedikt89.github.io/portfolio/</p>
 
                         </div>

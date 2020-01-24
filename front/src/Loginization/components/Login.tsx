@@ -5,8 +5,10 @@ import {loginUserThunk} from "../reducer/actions";
 import style from "./forms/FormControl.module.css";
 import {Link} from "react-router-dom";
 import {email, minLength4, required} from "./forms/FormElements/validators";
+import {getIsAuth} from "../reducer/selectors";
 
 const LoginForm: React.FC = (props: any) => {
+
     return (
         <form className={style.formControl} onSubmit={props.handleSubmit}>
             <h2>Authorization page</h2>
@@ -54,7 +56,13 @@ const LoginPage: React.FC = ({loginUserThunk}:any) => {
     </div>)
 };
 
+const mapStateToProps = (state: any) => {
+    return {
+        isAuth: getIsAuth(state)
+    }
+}
+
 const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
 
-export default connect(null,{loginUserThunk})(LoginPage);
+export default connect(mapStateToProps,{loginUserThunk})(LoginPage);
 
