@@ -13,12 +13,11 @@ export interface I_mongooseUser extends I_loginInfo, Document {
 }
 
 const userSchema:Schema = new Schema({
-    id: new mongoose.Types.ObjectId(),
-    email: {type: String, required: true, unique: true, mach: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i},
+    email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     firstName: {type: String},
     lastName: {type: String},
-    createdAt: {Date, required: true},
+    createdAt: {type: Date, required: true},
     photo: {type: String},
     birth_date: {type: Date},
 });

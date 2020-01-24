@@ -3,19 +3,17 @@ import User, {I_mongooseUser} from './models/User';
 import {I_userFullInfoType} from "../../../../core/users-types";
 import {I_loginResponce} from "../users-router";
 import {ENV_URL} from "../../config";
-import {now} from "moment";
 
 
 export const usersRepository = {
     async addUser(user: I_userFullInfoType): Promise<I_loginResponce | never> {
         try {
             const newUser = new User({
-                id: new mongoose.Types.ObjectId(),
                 email: user.email,
                 password: user.password,
                 photo: user.photo,
                 birth_date: user.birth_date,
-                createdAt: user.createdAt,
+                createdAt: Date.now(),
                 firstName: user.firstName,
                 lastName: user.lastName,
             });
@@ -44,7 +42,7 @@ export const usersRepository = {
                         id: doc[0]._id,
                         email: doc[0].email,
                         password: doc[0].password,
-                        photo: doc[0].photo? `${ENV_URL + doc[0].photo}` : 'noPhoto',
+                        photo: doc[0].photo? `${ENV_URL + doc[0].photo}` : 'no Photo',
                         createdAt: doc[0].createdAt,
                         birth_date: doc[0].birth_date ?  doc[0].birth_date : 'no Birth day info',
                         firstName: doc[0].firstName ? doc[0].firstName : 'no First name',

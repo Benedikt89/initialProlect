@@ -18,7 +18,49 @@ export interface I_loginResponce {
     lastName?: string,
     email: string,
 }
+router.get('/auth', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = req.body;
+        let userFind = await usersRepository.getUser(user.email);
+        if (userFind.length < 1)
+            return res.status(401).json({
+                message: 'email or password not correct'
+            });
+        const compared = await bcrypt.compare(user.password, userFind[0].password);
+        if (!compared) {
+            return res.status(401).json({
+                message: 'email or password not correct'
+            });
+        }
+        if (compared) {
+            // @ts-ignore
+            req.session.user_id = userFind[0].id;
 
+            const token = jwt.sign({
+                    email: userFind[0].email,
+                    userId: userFind[0].id
+                },
+                // @ts-ignore
+                process.env.JWT_KEY,
+                {
+                    expiresIn: "1h"
+                },
+            );
+            res.cookie("x-access-token" , token, {maxAge: 9999999, sameSite: 'None'});
+            return res.status(200).json({
+                message: 'Auth Successful',
+                userInfo: {
+                    userName: userFind[0].email,
+                }
+            })
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    }
+});
 router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = req.body;
@@ -70,7 +112,7 @@ router.delete('/logout', (req: Request, res: Response, next: NextFunction) => {
     res.send("success");
 });
 
-router.post(`/`, async (req: Request, res: Response, next: NextFunction) => {
+router.post(`/register`, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = req.body;
         let userFind = await usersRepository.getUser(user.email);
@@ -108,7 +150,7 @@ router.delete('/:email', checkAuth,
             const userEmail = req.params.email;
             let founded = await usersRepository.getUserInfo(userEmail);
 
-            if (founded.photo !== 'noPhoto') {
+            if (founded.photo !== 'no Photo') {
                 fs.unlink(rootPath + `${founded.photo}`, (err) => {
                     if (err)
                         throw err;
