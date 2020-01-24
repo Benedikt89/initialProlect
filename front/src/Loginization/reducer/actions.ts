@@ -22,14 +22,14 @@ interface I_userSessionDataAC {
 }
 
 interface I_logoutUserSuccessAC {
-    type: typeof LOGOUT_USER_SUCCESS,
-    payload: any                //// !!!
+    type: typeof LOGOUT_USER_SUCCESS
 }
 
 
 //Internal ACTIONS CREATORS
 
 export const _setAuthUserData = (payload: any): I_userSessionDataAC => ({type: SET_USER_DATA, payload});
+export const _logout = () => ({type: LOGOUT_USER_SUCCESS})
 
 
 //EXTERNAL ACTIONS

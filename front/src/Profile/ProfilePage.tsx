@@ -11,7 +11,7 @@ const ProfilePage: React.FC = (props: any) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        name: state.auth.name
+        name: state.auth.userData.name
     }
 }
 

@@ -13,6 +13,7 @@ function Header(props: I_props) {
     return (
         <header className={style.headerWrapper}>
             <div className={style.navContainer}>
+                {}
                 <Link to={"/login"}>
                     <div className={style.item}>
                         LogIn

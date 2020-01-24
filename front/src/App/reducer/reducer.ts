@@ -8,7 +8,7 @@ import {
 
 const initialState: I_appState = {
     isFetching: false,
-    error: null,
+    error: null
 };
 
 
