@@ -57,7 +57,7 @@ export const usersRepository = {
     },
 
     getUser(userEmail: string): DocumentQuery<I_mongooseUser[], I_mongooseUser> & {} {
-        return User.find({email: userEmail});
+        return User.find({ email: userEmail });
     },
 
     async updateUser(newUserInfo: I_userFullInfoType): Promise<I_userFullInfoType> {

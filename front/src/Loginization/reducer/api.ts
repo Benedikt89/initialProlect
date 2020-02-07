@@ -4,7 +4,6 @@ import {I_loginData, I_registerData, I_userSessionData} from "../../types/types"
 
 const instance = axios.create({
     // baseURL: "https://dry-forest-56016.herokuapp.com/auth"
-    /*withCredentials: true*/
     baseURL: "http://localhost:8000/api/users",
     withCredentials: true
 });
@@ -13,7 +12,7 @@ export const authAPI = {
     async loginUser(data: I_loginData): Promise<I_userSessionData | any> {
         try {
             let response = await instance.post(`/login`, data);
-            return new Promise((resolve,reject)=>{
+            return new Promise(( resolve, reject ) => {
                 resolve(response.data.userInfo)
             })
         } catch (err) {

@@ -3,7 +3,7 @@ export interface I_loginInfo {
     password: string
 }
 
-export interface I_userFullInfoType extends I_loginInfo{
+export interface I_userFullInfoType extends I_loginInfo {
     id: string,
     photo?: string,
     birth_date?: Date | string,

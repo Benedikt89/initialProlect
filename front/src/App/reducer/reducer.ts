@@ -1,6 +1,5 @@
 import {I_appState} from "../../types/types";
 import {
-
     I_appActions,
     SET_ERROR, SET_FETCH_SUCCESS,
     SET_IS_FETCHING

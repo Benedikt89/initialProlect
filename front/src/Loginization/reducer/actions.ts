@@ -30,60 +30,41 @@ interface I_logoutUserSuccessAC {
 
 //Internal ACTIONS CREATORS
 
-export const _setAuthUserData = (payload: I_userSessionData): I_userSessionDataAC => ({type: SET_USER_DATA, payload});
-export const _logOut = ():I_logoutUserSuccessAC => ({type: LOGOUT_USER_SUCCESS})
+export const _setAuthUserData = (payload: I_userSessionData): I_userSessionDataAC => ({ type: SET_USER_DATA, payload });
+export const _logOut = (): I_logoutUserSuccessAC => ({ type: LOGOUT_USER_SUCCESS });
 
 
 //EXTERNAL ACTIONS
 
 export const loginUserThunk = (data: I_loginData) =>
     async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
-    try{
-        console.log(data);
-        let response = await authAPI.loginUser(data);
-        let resData = {
-                // _id: response._id,
-                _id: response.id,
-                email: response.email,
-                password: response.password ? response.password : 'no Password',
-                isAdmin: response.isAdmin ? response.isAdmin : null,
-                __v: response.__v,
-                token: response.token ? response.token : null,
-                tokenDeathTime: response.tokenDeathTime ? response.tokenDeathTime : null,
-                rememberMe: response.rememberMe ? response.rememberMe : false,
-                // name: response.name,
-                name: response.firstName ? response.firstName : null,
-                created: response.created,
-                updated: response.updated ? response.updated : null
-            };
-        if (resData) {
-            await dispatch(_setAuthUserData(resData));
+        try {
+            console.log(data);
+            let response = await authAPI.loginUser(data);
+            dispatch(_setAuthUserData(response));
+        } catch (err) {
+            console.log(JSON.parse(JSON.stringify(err)));
+            //if its no data return
+            if (err.response.status === 403 || err.response.status === 401) {
+                dispatch(stopSubmit('login', {_error: err.response.data}));
+                dispatch(_toggleIsFetching(false));
+                dispatch(_setError(null));
+            } else {
+                dispatch(_setError('network Problems'));
+                dispatch(_toggleIsFetching(false));
+            }
         }
-    }
-    catch (err) {
-        console.log(JSON.parse(JSON.stringify(err)));
-        //if its no data return
-        if (err.response.status === 403 || err.response.status === 401) {
-            dispatch(stopSubmit('login', {_error: err.response.data}));
-            dispatch(_toggleIsFetching(false));
-            dispatch(_setError(null));
-        } else {
-            dispatch(_setError('network Problems'));
-            dispatch(_toggleIsFetching(false));
-        }
-    }
     };
 
 export const recoverPassword = (email: string) =>
     async (dispatch: ThunkDispatch<{}, {}, I_authActions | I_appActions | FormAction>, getState: GetStateType) => {
-        try{
-            debugger
+        try {
+        debugger
             let result = await authAPI.recoverPassword(email);
-            debugger
+        debugger
             return result
-        }
-        catch (err) {
-            debugger
+        } catch (err) {
+        debugger
             console.log("recoverPassword error - " + err)
         }
     };

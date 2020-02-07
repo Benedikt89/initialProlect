@@ -56,7 +56,7 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAut
                 />
 
                 <br />
-                <WithModal>
+                <WithModal visible={false} closeModal={ () => {alert('close') }} >
                     <GoogleLogin
                         clientId={GOOGLE_CLIENT_ID} //CLIENT ID
                         buttonText="LOGIN WITH GOOGLE"

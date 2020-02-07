@@ -20,6 +20,7 @@ const userSchema:Schema = new Schema({
     createdAt: {type: Date, required: true},
     photo: {type: String},
     birth_date: {type: Date},
+    __v: { type: Number, select: false}
 });
 
 //adding methods to schema

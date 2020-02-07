@@ -6,14 +6,13 @@ let initialState: I_authState = {
     userData: {
         _id: null,
         email: null,
+        firstName: null,
         password: null,
         isAdmin: null,
-        __v: null,
         token: null,
         tokenDeathTime: null,
         rememberMe: null,
-        name: null,
-        created: null,
+        createdAt: null,
         updated: null
     },
     events: [
@@ -38,6 +37,7 @@ let initialState: I_authState = {
 const authReducer = (state: I_authState = initialState, action: I_authActions) => {
     switch (action.type) {
         case SET_USER_DATA: {
+            debugger
             return {
                 ...state,
                 userData: {...state.userData, ...action.payload},
