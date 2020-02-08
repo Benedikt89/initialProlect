@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {APIerrorLogger} from "../../utils/errorLogger";
-import {I_loginData, I_registerData, I_userSessionData} from "../../types/types";
+import {I_loginData, I_registerData} from "../../types/auth-types";
+import {I_authToFrontUserData} from "../../../../core/users-types";
 
 const instance = axios.create({
     // baseURL: "https://dry-forest-56016.herokuapp.com/auth"
@@ -8,48 +9,45 @@ const instance = axios.create({
     withCredentials: true
 });
 
+interface I_serverResponse {
+    message: string,
+    userInfo?: I_authToFrontUserData
+}
+
 export const authAPI = {
-    async loginUser(data: I_loginData): Promise<I_userSessionData | any> {
+    async loginUser(data: I_loginData): Promise<I_authToFrontUserData | never> {
         try {
             let response = await instance.post(`/login`, data);
-            return new Promise(( resolve, reject ) => {
+            return new Promise((resolve, reject) => {
                 resolve(response.data.userInfo)
             })
         } catch (err) {
             APIerrorLogger(err);
             throw err;
         }
-
     },
 
     async registerUser(data: I_registerData) {
         try {
-            let res = await instance.post('/register', data);
-            if (res.status >= 200 && res.status < 300) {
-                debugger;
-                return res.data;
-            } else if (res.data.error) {
-                return new Error(res.data.error);
-            }
+            let res: AxiosResponse<I_serverResponse | { error: string } | any> = await instance.post('/register', data);
+            return res.data;
         } catch (err) {
             APIerrorLogger(err);
-            throw new Error('unknown Error');
+            throw err
         }
     },
     async recoverPassword(email: string) {
-        try
-        {
-            debugger;
+        try {
+        debugger;
             let response = await instance.post('/forgot', {email});
-            debugger;
-            return new Promise((resolve,reject)=>{
+        debugger;
+            return new Promise((resolve, reject) => {
                 resolve(response)
             })
-        }
-         catch (err) {
+        } catch (err) {
             APIerrorLogger(err);
-            console.log("HERE:"+err);
-            debugger
+            console.log("HERE:" + err);
+        debugger
         }
     },
 };

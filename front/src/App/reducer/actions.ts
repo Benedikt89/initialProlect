@@ -1,9 +1,6 @@
-import {Dispatch} from "redux";
-import {AppStateType} from "../../redux/store";
+import {AppActionsType, AppStateType} from "../../redux/store";
 import {fetchData} from "./api-actions";
-import {I_dataToStore} from "../../types/types";
 import {ThunkDispatch} from "redux-thunk";
-import {authAPI,responseType} from "./api";
 
 type GetStateType = () => AppStateType
 
@@ -18,8 +15,7 @@ export type I_appActions =
 
 //interfaces
 interface I_fetchSuccess {
-    type: typeof SET_FETCH_SUCCESS,
-    data: any
+    type: typeof SET_FETCH_SUCCESS
 }
 
 interface I_toggleIsFetching {
@@ -36,7 +32,7 @@ interface I_setError {
 
 
 //Internal ACTIONS CREATORS
-export const _fetchSuccess = (data: I_dataToStore): I_fetchSuccess => ({ type: SET_FETCH_SUCCESS, data});
+export const _fetchSuccess = (): I_fetchSuccess => ({ type: SET_FETCH_SUCCESS });
 
 export const _toggleIsFetching = (status: boolean): I_toggleIsFetching => ({ type: SET_IS_FETCHING, status});
 
@@ -45,7 +41,7 @@ export const _setError = (message: string | null): I_setError => ({ type: SET_ER
 
 //EXTERNAL ACTIONS
 export const fetchAll = () =>
-    async (dispatch: ThunkDispatch<{}, {}, any>, getState: GetStateType) => {
+    async (dispatch: ThunkDispatch<{}, {}, AppActionsType>, getState: GetStateType) => {
         setTimeout(async () => {
                 await Promise.all([dispatch(fetchData())]);
             dispatch(_setError(null));

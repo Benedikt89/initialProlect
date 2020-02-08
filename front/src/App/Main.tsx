@@ -16,7 +16,7 @@ import RecoverPassword from "../Loginization/components/RecoverPasswordPage";
 import {withErrorBoundary} from "../Hoc/ErrorBoundary";
 import {ErrorMessage} from "./Common/ErrorMessage";
 import {getIsAuth} from "../Loginization/reducer/selectors";
-import {_logOut} from "../Loginization/reducer/actions";
+import {logOut} from "../Loginization/reducer/actions";
 
 const ErrorMessageWithErrorBoundary =
     withErrorBoundary(ErrorMessage);
@@ -34,7 +34,7 @@ interface I_connectedProps {
 
 interface I_dispatchedProps {
     fetchData: () => void,
-    _logOut: () => void
+    logOut: () => void
 }
 
 interface I_MainProps extends I_props, I_connectedProps, I_dispatchedProps, RouteComponentProps<{}> {
@@ -56,7 +56,7 @@ class Main extends Component<I_MainProps> {
         let {appError, isFetching} = this.props;
         return (
             <div>
-                <Header alert={appError} isAuth={this.props.isAuth} logOut={this.props._logOut}/>
+                <Header alert={appError} isAuth={this.props.isAuth} logOut={this.props.logOut}/>
 
                 <div className={style.mainWrapper}>
                     {isFetching ?
@@ -95,7 +95,7 @@ const mapStateToProps = (state: AppStateType): I_connectedProps => {
 };
 
 let ComposedComponent = connect(
-    mapStateToProps, {fetchData,_logOut}
+    mapStateToProps, {fetchData,logOut}
 )(Main);
 
 export default withRouter(ComposedComponent);

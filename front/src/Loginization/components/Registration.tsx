@@ -1,6 +1,6 @@
 import React from "react";
 import RegisterUserForm from "./forms/RegisterForm";
-import {I_registerData} from "../../types/types";
+import {I_registerData} from "../../types/auth-types";
 import {connect} from "react-redux";
 import {registerUser, registerWithAuth0} from "../reducer/actions";
 import style from "./Registration.module.css";
@@ -17,10 +17,10 @@ interface I_connectedProps {
 }
 
 const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAuth0}: I_connectedProps) => {
-    const onUserSubmit = (formData: any) => {
+    const onUserSubmit = (formData: I_registerData) => {
         registerUser({email: formData.email, password: formData.password})
     };
-    const responseFacebook = (res:any) => {
+    const responseFacebook = (res: any) => {
         let userIncomingFacebook = {
             accessToken: res.accessToken,
             data_access_expiration_time: res.data_access_expiration_time,
@@ -35,19 +35,17 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAut
         console.log(userIncomingFacebook);
     };
 
-    const responseGoogle = (response:any) => {
+    const responseGoogle = (response: any) => {
         console.log(response);
     };
-    let error = null;
 
     return (
-
         <div className={style.container}>
-            {!error? <div>
+            <div>
                 <h2>Please Register</h2>
                 <RegisterUserForm onSubmit={onUserSubmit}/>
 
-                <br />
+                <br/>
 
                 <FacebookLogin
                     appId={FACEBOOK_APP_ID} //APP ID
@@ -55,8 +53,10 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAut
                     callback={responseFacebook}
                 />
 
-                <br />
-                <WithModal visible={false} closeModal={ () => {alert('close') }} >
+                <br/>
+                <WithModal visible={false} closeModal={() => {
+                    alert('close')
+                }}>
                     <GoogleLogin
                         clientId={GOOGLE_CLIENT_ID} //CLIENT ID
                         buttonText="LOGIN WITH GOOGLE"
@@ -66,9 +66,7 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser, registerWithAut
                     />
                     <h2>THIS IS PROPS.CHILDREN</h2>
                 </WithModal>
-
-            </div> : <span>{error}</span>}
-
+            </div>
         </div>
     )
 };

@@ -1,19 +1,20 @@
-import {I_authState, I_eventObject} from "../../types/types";
+import {I_authState, I_eventObject} from "../../types/auth-types";
 
 import {I_authActions, LOGOUT_USER_SUCCESS, SET_USER_DATA} from "./actions";
 
 let initialState: I_authState = {
     userData: {
-        _id: null,
+        id: null,
         email: null,
         firstName: null,
-        password: null,
+        lastName: null,
+        birth_date: null,
+        photo: null,
         isAdmin: null,
-        token: null,
+        createdAt: null,
+        updated: null,
         tokenDeathTime: null,
         rememberMe: null,
-        createdAt: null,
-        updated: null
     },
     events: [
         {
@@ -37,20 +38,28 @@ let initialState: I_authState = {
 const authReducer = (state: I_authState = initialState, action: I_authActions) => {
     switch (action.type) {
         case SET_USER_DATA: {
-            debugger
             return {
                 ...state,
                 userData: {...state.userData, ...action.payload},
-                events: state.events.map(( e:I_eventObject) => { if (e.message === 'AUTH_FETCHING') {
-                    return {...e, status: false, message: null}
-                } else
-                    return e
+                events: state.events.map((e: I_eventObject) => {
+                    if (e.name === 'AUTH_FETCHING') {
+                        return {...e, status: false, message: null}
+                    } else if (e.name === 'AUTH_SUCCESS') {
+                        return {...e, status: true, message: null}
+                    } else
+                        return e
                 })
             }
         }
         case LOGOUT_USER_SUCCESS: {
             return {
-                ...state
+                ...state,
+                events: state.events.map((e: I_eventObject) => {
+                    if (e.name === 'AUTH_SUCCESS') {
+                        return {...e, status: true, message: null}
+                    } else
+                        return e
+                })
             }
         }
         default:

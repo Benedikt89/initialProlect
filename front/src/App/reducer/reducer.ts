@@ -1,9 +1,9 @@
-import {I_appState} from "../../types/types";
 import {
     I_appActions,
     SET_ERROR, SET_FETCH_SUCCESS,
     SET_IS_FETCHING
 } from "./actions";
+import {I_appState} from "../../types/app-types";
 
 const initialState: I_appState = {
     isFetching: false,
@@ -28,7 +28,7 @@ const reducer = (state: I_appState = initialState, action: I_appActions) => {
         case SET_FETCH_SUCCESS:
             return {
                 ...state,
-                ...action.data
+                error: null
             };
         default:
             return state;

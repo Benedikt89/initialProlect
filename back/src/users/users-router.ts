@@ -1,60 +1,22 @@
 import {usersRepository} from "./dal/users-repository";
-
 import express, {NextFunction, Request, Response} from "express";
+import checkAuthUser from "./middleware/user-password-check";
+import checkAuthToken from "./middleware/check-auth-token";
 const router = express.Router();
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import {upload} from "./dal/ImageHolder";
 import * as fs from "fs";
 import {rootPath} from "../config";
-const checkAuth = require("./middleware/check-auth");
 
-export interface I_loginResponce {
-    id: string,
-    photo?: string,
-    birth_date?: Date | string,
-    createdAt?: Date,
-    firstName?: string,
-    lastName?: string,
-    email: string,
-}
 
-router.get('/auth', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/auth-me', checkAuthUser, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = req.body;
-        let userFind = await usersRepository.getUser(user.email);
-        if (userFind.length < 1)
-            return res.status(401).json({
-                message: 'email or password not correct'
-            });
-        const compared = await bcrypt.compare(user.password, userFind[0].password);
-        if (!compared) {
-            return res.status(401).json({
-                message: 'email or password not correct'
-            });
-        }
-        if (compared) {
-            // @ts-ignore
-            req.session.user_id = userFind[0].id;
-
-            const token = jwt.sign({
-                    email: userFind[0].email,
-                    userId: userFind[0].id
-                },
-                // @ts-ignore
-                process.env.JWT_KEY,
-                {
-                    expiresIn: "1h"
-                },
-            );
-            res.cookie("x-access-token" , token, {maxAge: 9999999, sameSite: 'None'});
-            return res.status(200).json({
-                message: 'Auth Successful',
-                userInfo: {
-                    userName: userFind[0].email,
-                }
-            })
-        }
+        return res.status(200).json({
+            message: 'Auth Successful',
+            userInfo: {
+                userName: res.locals.userFound.email,
+                id: res.locals.userFound.id
+            }
+        })
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -62,41 +24,12 @@ router.get('/auth', async (req: Request, res: Response, next: NextFunction) => {
         })
     }
 });
-router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/login', checkAuthUser, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = req.body;
-        let userFind = await usersRepository.getUser(user.email);
-        if (userFind.length < 1) {
-            return res.status(401).send('email or password not correct').json({
-                message: 'email or password not correct'
-            });
-        }
-        const compared = await bcrypt.compare(user.password, userFind[0].password);
-        if (!compared) {
-            return res.status(401).send('email or password not correct').json({
-                message: 'email or password not correct'
-            });
-        }
-        if (compared) {
-            // @ts-ignore
-            req.session.user_id = userFind[0].id;
-
-            const token = jwt.sign({
-                    email: userFind[0].email,
-                    userId: userFind[0].id
-                },
-                // @ts-ignore
-                process.env.JWT_KEY,
-                {
-                    expiresIn: "1h"
-                },
-            );
-            res.cookie("x-access-token" , token, {maxAge: 9999999, sameSite: 'None'});
             return res.status(200).json({
                 message: 'Auth Successful',
-                userInfo: userFind[0]
+                userInfo: {...res.locals.userFound.getFullDataToSend(), rememberMe: null, tokenDeathTime: null}
             })
-        }
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -120,7 +53,11 @@ router.post(`/register`, async (req: Request, res: Response, next: NextFunction)
         if (!userFind.length >= 1) {
             const newUser = await usersRepository.addUser(user);
             console.log(newUser);
-            res.send(newUser).status(201)
+            return res.json({
+                message: 'Auth Successful',
+                userInfo: newUser
+            })
+                .status(201)
         } else {
             return res.status(409).json({message: "This Email Already Used"});
         }
@@ -132,7 +69,7 @@ router.post(`/register`, async (req: Request, res: Response, next: NextFunction)
     }
 });
 
-router.put('/', checkAuth,
+router.put('/', checkAuthToken,
     async (req: Request, res: Response) => {
         try {
             let newUserInfo = req.body;
@@ -144,7 +81,7 @@ router.put('/', checkAuth,
         }
     });
 
-router.delete('/:email', checkAuth,
+router.delete('/:email', checkAuthToken,
     async (req: Request, res: Response) => {
         try {
             const userEmail = req.params.email;
@@ -165,7 +102,7 @@ router.delete('/:email', checkAuth,
         }
     });
 
-router.put('/edit', checkAuth, upload.single('image'),
+router.put('/edit', checkAuthToken, upload.single('image'),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             //checking file

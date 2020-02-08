@@ -7,34 +7,32 @@ import {Link} from "react-router-dom";
 import {email, minLength4, required} from "./forms/FormElements/validators";
 import {getIsAuth} from "../reducer/selectors";
 import {renderField} from "./forms/FormElements/FormsControls";
+import {I_loginData} from "../../types/auth-types";
 
 const LoginForm: React.FC = ({handleSubmit, pristine, submitting, error}: any) => {
     return (
         <form className={style.formControl} onSubmit={handleSubmit}>
-            <h2>Authorization page</h2>
+            <Field component={renderField}
+                   label="Имя Пользователя"
+                   name={"email"}
+                   placeholder={"Email"}
+                   type={"text"}
+                   validate={[required, minLength4, email]}
+            />
+            <Field component={renderField}
+                   label="Пароль"
+                   name={"password"}
+                   placeholder={"Password"}
+                   type={"password"}
+                   validate={[required, minLength4]}
+            />
+            <Field component={renderField}
+                   label="Remember Me"
+                   name={"rememberMe"}
+                   type={"checkbox"}
+            />
             <div>
-                <Field component={renderField}
-                       label="Имя Пользователя"
-                       name={"email"}
-                       placeholder={"Email"}
-                       type={"text"}
-                       validate={[required, minLength4, email]}
-                />
-                <Field component={renderField}
-                       label="Пароль"
-                       name={"password"}
-                       placeholder={"Password"}
-                       type={"password"}
-                       validate={[required, minLength4]}
-                />
-                <Field component={renderField}
-                       label="Remember Me"
-                       name={"rememberMe"}
-                       type={"checkbox"}
-                />
-                <div>
-                    <button disabled={submitting || pristine}>Sign In</button>
-                </div>
+                <button disabled={submitting || pristine}>Sign In</button>
             </div>
             {error && <span className={style.mainErrorMessage}>{error}</span>}
         </form>
@@ -50,6 +48,7 @@ const LoginPage: React.FC = ({loginUserThunk}: any) => {
 
     return (
         <div className={style.container}>
+            <h2>Authorization page</h2>
             <LoginReduxForm onSubmit={onSubmit}/>
             <Link to={"/forgotPassword"}>
                 <div className={style.item}>
@@ -66,7 +65,7 @@ const mapStateToProps = (state: any) => {
     }
 }
 
-const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
+const LoginReduxForm = reduxForm<I_loginData>({form: 'login'})(LoginForm);
 
 export default connect(mapStateToProps, {loginUserThunk})(LoginPage);
 

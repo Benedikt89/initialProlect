@@ -1,11 +1,18 @@
 import React from 'react';
 import style from '../FormControl.module.css';
+import classNames from "classnames";
+
+interface I_meta {
+    touched: boolean,
+    error: string | undefined,
+    warning: string | undefined
+}
 
 export interface I_renderFieldProps {
-    input:any
+    input: any
     label: string
     type: string
-    meta: any
+    meta: I_meta
 }
 
 export const renderField = ({input, label, type, meta: {touched, error, warning}}:I_renderFieldProps) => {

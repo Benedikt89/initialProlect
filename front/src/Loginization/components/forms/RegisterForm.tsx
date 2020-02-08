@@ -3,6 +3,7 @@ import style from './FormControl.module.css';
 import {Field, reduxForm} from "redux-form";
 import {renderField} from "./FormElements/FormsControls";
 import {email, minLength4, required} from "./FormElements/validators";
+import {I_registerData} from "../../../types/auth-types";
 
 const RegisterUserForm = ({handleSubmit, pristine, submitting, error}: any) => {
 
@@ -26,4 +27,4 @@ const RegisterUserForm = ({handleSubmit, pristine, submitting, error}: any) => {
         </form>
     )
 };
-export default reduxForm({form: 'registration'})(RegisterUserForm)
+export default reduxForm<I_registerData>({form: 'registration'})(RegisterUserForm)

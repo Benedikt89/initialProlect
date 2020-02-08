@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {connect} from "react-redux";
 import WithModal from "../Modals/Modal";
+import Popover from "../Modals/Popover";
 
 interface I_connectedProps {
     firstName: string | null
@@ -9,6 +10,7 @@ interface I_connectedProps {
 
 const ProfilePage: React.FC<I_connectedProps> = (props: I_connectedProps) => {
     let [isModalOpened, setIsModalOpened] = useState(false);
+    let [isPopoverOpened, setPopoverOpened] = useState(false);
     return (
         <div>
             {props.email ? <div>You are logged in {props.email}</div> : <div>You are not logged in, please log in!</div>}
@@ -16,6 +18,9 @@ const ProfilePage: React.FC<I_connectedProps> = (props: I_connectedProps) => {
             <WithModal visible={isModalOpened} closeModal={() => {setIsModalOpened(false)}}>
                 <h1>asd</h1>
             </WithModal>
+            <Popover visible={isPopoverOpened} content={<span>POPOVER</span>}>
+                <button onClick={ () => {setPopoverOpened(true)} }>popopver</button>
+            </Popover>
         </div>
     )
 };

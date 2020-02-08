@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import {NextFunction, Request, Response} from "express";
 
-module.exports = (req:Request, res: Response, next: NextFunction) => {
+const checkAuthToken = (req:Request, res: Response, next: NextFunction) => {
     try {
         // Express headers are auto converted to lowercase
         let token = req.cookies['x-access-token'] || req.headers['authorization'];
@@ -14,8 +14,9 @@ module.exports = (req:Request, res: Response, next: NextFunction) => {
             req.signedCookies = jwt.verify(token, KEY);
     } catch (err) {
         return res.status(401).json({
-            message: 'Auth Failed'
+            message: 'Incorrect Token'
         })
     }
     next();
 };
+export default checkAuthToken;
