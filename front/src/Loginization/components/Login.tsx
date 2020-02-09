@@ -1,15 +1,16 @@
 import React from "react";
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {connect} from "react-redux";
 import {loginUserThunk} from "../reducer/actions";
-import style from "./forms/FormControl.module.css";
+import style from "./forms/FormElements/FormControl.module.css";
 import {Link} from "react-router-dom";
 import {email, minLength4, required} from "./forms/FormElements/validators";
 import {getIsAuth} from "../reducer/selectors";
 import {renderField} from "./forms/FormElements/FormsControls";
 import {I_loginData} from "../../types/auth-types";
 
-const LoginForm: React.FC = ({handleSubmit, pristine, submitting, error}: any) => {
+const LoginForm:React.FC<InjectedFormProps<I_loginData>> = (props) => {
+    let {handleSubmit, pristine, submitting, error} = props;
     return (
         <form className={style.formControl} onSubmit={handleSubmit}>
             <Field component={renderField}

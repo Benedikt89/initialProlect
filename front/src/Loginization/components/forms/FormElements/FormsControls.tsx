@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../FormControl.module.css';
+import style from './FormControl.module.css';
 import classNames from "classnames";
 
 interface I_meta {
@@ -16,17 +16,16 @@ export interface I_renderFieldProps {
 }
 
 export const renderField = ({input, label, type, meta: {touched, error, warning}}:I_renderFieldProps) => {
-    let classForField = () => {
-        if(touched) {
-            return style.fieldWrapper + ' ' + (error && touched ? style.error : style.success)
-        } else {
-            return style.fieldWrapper;
-        }
-    };
+    let cx = classNames.bind(style);
+    let classForField = cx(style.fieldWrapper, {
+        success: touched && !error && !warning,
+        error: error && touched,
+    });
+
     return (
     <div>
-        <label>{label}</label>
-        <div className={classForField()}>
+        <label className={style.titleRequired}>{label}</label>
+        <div className={classForField}>
             <input {...input} type={type}/>
             {touched &&
             ((error && <span className={style.errorMessage}>{error}</span>)

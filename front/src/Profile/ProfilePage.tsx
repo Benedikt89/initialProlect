@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {connect} from "react-redux";
-import WithModal from "../Modals/Modal";
-import Popover from "../Modals/Popover";
+import WithModal from "../Common/Modals/Modal";
+import Popover from "../Common/Modals/Popover";
 
 interface I_connectedProps {
     firstName: string | null

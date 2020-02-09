@@ -1,14 +1,15 @@
 import React from "react";
-import style from './FormControl.module.css';
-import {Field, reduxForm} from "redux-form";
+import style from './FormElements/FormControl.module.css';
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {renderField} from "./FormElements/FormsControls";
 import {email, minLength4, required} from "./FormElements/validators";
-import {I_registerData} from "../../../types/auth-types";
+import { I_registerData} from "../../../types/auth-types";
 
-const RegisterUserForm = ({handleSubmit, pristine, submitting, error}: any) => {
-
+const RegisterUserForm:React.FC<InjectedFormProps<I_registerData>> = (props) => {
+    let {handleSubmit, pristine, submitting, error} = props;
+    console.log(error);
     return (
-        <form className={style.formControl} onSubmit={handleSubmit}>
+        <form className={style.formWrapper} onSubmit={handleSubmit}>
             <Field name="email"
                    type="text"
                    component={renderField}
@@ -21,7 +22,9 @@ const RegisterUserForm = ({handleSubmit, pristine, submitting, error}: any) => {
                    label="Пароль"
                    validate={[required, minLength4]}
             />
-            {error && <span className={style.mainErrorMessage}>{error}</span>}
+            <div>
+                <span style={{color: 'red'}}>{error}</span>
+            </div>
 
             <button type="submit" disabled={pristine || submitting}>Sign Up</button>
         </form>

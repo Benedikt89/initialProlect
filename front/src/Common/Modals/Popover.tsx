@@ -12,7 +12,8 @@ const Popover: React.FC<I_Props> = ({visible, content, children, color}: I_Props
     return (
         <div style={{
             position: 'relative',
-            width: "fit-content"
+            width: "fit-content",
+            margin: '0 auto',
         }}>
             {visible &&
             <PopoverContent style={{backgroundColor: color ? color : 'white'}}>

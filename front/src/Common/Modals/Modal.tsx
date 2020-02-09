@@ -12,14 +12,14 @@ interface I_Props {
 const WithModal: React.FC<I_Props> = (props: I_Props) => {
 
     return (
-        <ModalWrapper style={{display: props.visible ? 'flex' : 'none'}}>
-            <ModalInner>
+        <ModalWrapper style={{display: props.visible ? 'flex' : 'none'}} onClick={props.closeModal}>
+            <ModalInner style={{ zIndex: 20 }}>
                 <ModalContent>
                     <CloseArea>
                         <CloseButton onClick={props.closeModal}>X</CloseButton>
                     </CloseArea>
                     <ModalHeader>
-                        {props.title && <h2>title</h2>}
+                        <h2>{ props.title ? props.title : 'title' }</h2>
                     </ModalHeader>
                     <ModalBody>
                         {props.children}
@@ -62,20 +62,21 @@ const CloseButton = styled.span`
     text-align: center;
     text-transform: none;
     text-rendering: auto;
+    pointer-events: auto;
     `;
 
 const ModalWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  overflow: auto;
-  outline: 0;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9;
 `;
 const ModalInner = styled.div`
-    width: 520px;
+    position: fixed;
+    top: calc(50vh - 50px);
+    left: calc(50vw - 410px);
     transform-origin: 249px 375px;
     box-sizing: border-box;
     color: rgba(0,0,0,.65);
@@ -85,14 +86,17 @@ const ModalInner = styled.div`
     list-style: none;
     -webkit-font-feature-settings: "tnum";
     font-feature-settings: "tnum","tnum";
-    position: relative;
-    top: 100px;
-    width: auto;
-    margin: 0 auto;
     padding: 0 0 24px;
     pointer-events: none;
+    z-index: 1000;
 `;
 const ModalContent = styled.div`
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 21;
+    width: 420px;
     position: relative;
     background-color: #fff;
     background-clip: padding-box;
@@ -100,7 +104,7 @@ const ModalContent = styled.div`
     border-radius: 4px;
     -webkit-box-shadow: 0 4px 12px rgba(0,0,0,.15);
     box-shadow: 0 4px 12px rgba(0,0,0,.15);
-    pointer-events: auto;
+    pointer-events: none;
 `;
 const ModalHeader = styled.div`
     padding: 16px 24px;

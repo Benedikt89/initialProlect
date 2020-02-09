@@ -56,22 +56,19 @@ export const loginUserThunk = (data: I_loginData) =>
 export const registerUser = (registerData: I_registerData) =>
     async (dispatch: ThunkDispatch<{}, {}, AppActionsType>) => {
         try {
-            dispatch(_toggleIsFetching(true));
             let res = await authAPI.registerUser(registerData);
             if (res.success) {
                 dispatch(_setAuthUserData(res.addedUser));
             }
             dispatch(_toggleIsFetching(false));
         } catch (err) {
-            console.log(err);
+            console.log(JSON.parse(JSON.stringify(err)));
             //if its no data return
             if (err.response && err.response.status === 409) {
                 dispatch(stopSubmit('registration', {_error: err.response.data.message}));
                 dispatch(_toggleIsFetching(false));
-                dispatch(_setError(null));
             } else {
                 dispatch(stopSubmit('registration', {_error: 'network Problems'}));
-                dispatch(_setError('network Problems'));
                 dispatch(_toggleIsFetching(false));
             }
         }
