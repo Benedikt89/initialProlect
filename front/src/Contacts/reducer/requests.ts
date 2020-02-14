@@ -1,11 +1,11 @@
 import {I_contact, I_formContact} from "../contacts-types";
 import axios, {AxiosResponse} from "axios";
 import { APIerrorLogger } from "../../utils/errorLogger";
+import {GOOGLE_API_KEY} from "../../loginConfig";
 
 const APIURL = "http://localhost:8000/api/contacts/";
 const MAPURL = "https://maps.googleapis.com/maps/api/geocode/json?address=";
 
-export const GOOGLE_API_KEY = "AIzaSyDdg7ToSLq8ZdJmpkx1b2SqC6wH8orEEQQ";
 
 export const contactsRequests = {
     getContacts(): Promise<Array<I_contact> | never> {
