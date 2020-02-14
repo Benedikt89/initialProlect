@@ -4,16 +4,28 @@ import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ContactForm from "./ContactForm";
-import "./HomePage.css";
+import "../../App.css";
 import MapComponent from "./MapComponent";
 import {connect} from "react-redux";
-import {deleteContact, getLatLng} from "../reducer/requests";
+import { getLatLng } from "../reducer/requests";
 import {I_contact, I_formContact} from "../contacts-types";
-import {getContacts} from "../reducer/actions";
+import { deleteContact, getContacts, addContact, editContact } from "../reducer/actions";
 import {AppStateType} from "../../redux/store";
 import Contact from "./Contact";
+import {RouteComponentProps} from "react-router";
 
-const ContactsPage:React.FC = () => {
+interface I_connectedProps {
+    contacts: Array<I_contact> | []
+}
+interface I_dispatchedProps {
+    deleteContact: (id: string) => void,
+    getContacts: () => void,
+    addContact: (contact: I_formContact) => void,
+    editContact: (contact: I_contact) => void
+}
+interface I_ContactsProps extends I_connectedProps, I_dispatchedProps, RouteComponentProps<{}> {}
+
+const ContactsPage:React.FC<I_ContactsProps> = ({contacts, getContacts, deleteContact, addContact, editContact}) => {
     const [openAddModal, setOpenAddModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [openMapModal, setOpenMapModal] = useState(false);
@@ -23,7 +35,7 @@ const ContactsPage:React.FC = () => {
         lng: 0,
     });
     const [selectedContact, setSelectedContact] = useState();
-    const [contacts, setContacts] = useState([]);
+
     const openModal = () => {
         setOpenAddModal(true);
     };
@@ -36,7 +48,7 @@ const ContactsPage:React.FC = () => {
     const cancelAddModal = () => {
         setOpenAddModal(false);
     };
-    const editContact = (contact: I_contact) => {
+    const editModeContact = (contact: I_contact) => {
         setSelectedContact(contact);
         setOpenEditModal(true);
     };
@@ -47,13 +59,13 @@ const ContactsPage:React.FC = () => {
         getContacts();
         setInitialized(true);
     };
-    const deleteSelectedContact = async (id: string) => {
-        await deleteContact(id);
-        getData();
+    const deleteSelectedContact = (id: string) => {
+        deleteContact(id);
     };
+
     const openMap = async (contact: I_contact) => {
         try {
-            const address = `${contact.address}, ${contact.city}, ${contact.country}`;
+            const address = `${contact.city}, ${contact.country}`;
             const response = await getLatLng(address);
             const loc = response.data.results[0].geometry.location;
             setLoc(loc);
@@ -62,11 +74,38 @@ const ContactsPage:React.FC = () => {
             console.log(ex);
         }
     };
+    let getRandom = () => Math.floor(Math.random() * 105);
+    let randomData = {
+        firstName: `string${getRandom()}`,
+        lastName: `string${getRandom()}`,
+        address: `Minsk`,
+        city: `Minsk`,
+        region: `Minsk`,
+        country: `Belarus`,
+        postalCode: `220000`,
+        phone: `${getRandom()}`,
+        email: `string${getRandom()}@tut.by`,
+        age: 22
+    };
+    const addRandom = () => {
+        addContact(randomData);
+    };
+
     useEffect(() => {
         if (!initialized) {
             getData();
         }
     });
+
+    // @ts-ignore
+    let dispayedContacts = contacts.length ? contacts.map( (c: I_contact) => <Contact
+        key={c.id + 'cont'}
+        contact={c}
+        openMap={openMap}
+        editContact={editModeContact}
+        deleteSelectedContact={deleteSelectedContact}
+    />) : <h2>NoContacts</h2>;
+
     return (
         <div className="home-page">
             <h1>Contacts</h1>
@@ -79,7 +118,7 @@ const ContactsPage:React.FC = () => {
                         edit={false}
                         onSave={closeModal}
                         onCancel={cancelAddModal}
-                        addContact={(c) => {console.log(c)}}
+                        addContact={(c) => {addContact(c)}}
                     />
                 </Modal.Body>
             </Modal>
@@ -92,7 +131,7 @@ const ContactsPage:React.FC = () => {
                         edit={true}
                         onSave={closeModal}
                         contact={selectedContact}
-                        addContact={(c) => {console.log(c)}}
+                        addContact={(c) => {editContact({...c, id: selectedContact.id})}}
                         onCancel={cancelEditModal}
                     />
                 </Modal.Body>
@@ -130,25 +169,24 @@ const ContactsPage:React.FC = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {contacts && contacts.map((c, i) => <Contact
-                    key={i+'cont'}
-                    contact={c}
-                    openMap={openMap}
-                    editContact={editContact}
-                    deleteSelectedContact={deleteSelectedContact}
-                />)}
+                {dispayedContacts}
                 </tbody>
             </Table>
+            <Button onClick={addRandom}>addRandom</Button>
         </div>
     );
 };
 
 const mapStateToProps = (state: AppStateType) => {
     return {
-        contacts: state.contacts
+        contacts: state.contacts.constacts
     };
 };
-export default connect(
+
+
+let ComposedComponent = connect(
     mapStateToProps,
-    { getContacts }
+    { getContacts, deleteContact, addContact, editContact }
 )(ContactsPage);
+
+export default ComposedComponent;

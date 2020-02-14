@@ -2,7 +2,6 @@ import React from "react";
 import {I_contact} from "../contacts-types";
 import Button from "react-bootstrap/Button";
 
-
 interface I_props {
     contact: I_contact,
     openMap: (contact: I_contact) => void,

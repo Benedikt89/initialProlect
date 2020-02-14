@@ -38,8 +38,7 @@ interface I_dispatchedProps {
     logOut: () => void
 }
 
-interface I_MainProps extends I_props, I_connectedProps, I_dispatchedProps, RouteComponentProps<{}> {
-}
+interface I_MainProps extends I_props, I_connectedProps, I_dispatchedProps, RouteComponentProps<{}> {}
 
 class Main extends Component<I_MainProps> {
 

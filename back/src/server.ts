@@ -8,6 +8,8 @@ import morgan from 'morgan';
 
 // setup routers
 import users from "./users/users-router";
+import contacts from "./contacts/contacts-router";
+
 import {imagesPath, staticPath} from "./config";
 
 //Database connections
@@ -47,6 +49,7 @@ app.use(session({
 }));
 //routers
 app.use('/api/users', users);
+app.use('/api/contacts', contacts);
 
 //Configure
 app.disable("x-powered-by");

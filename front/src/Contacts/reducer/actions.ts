@@ -1,4 +1,4 @@
-import {I_contact} from "../contacts-types";
+import {I_contact, I_formContact} from "../contacts-types";
 import {ThunkDispatch} from "redux-thunk";
 import {AppActionsType, AppStateType} from "../../redux/store";
 import {contactsRequests} from "./requests";
@@ -25,5 +25,32 @@ export const getContacts = () => async (dispatch: ThunkDispatch<{}, {}, AppActio
         console.log(JSON.parse(JSON.stringify(err)));
     }
 };
-
+export const addContact = (data: I_formContact) => async (dispatch: ThunkDispatch<{}, {}, AppActionsType>, getState: GetStateType) => {
+    try {
+        let response = await contactsRequests.addContact(data);
+        console.log(JSON.parse(JSON.stringify(response)));
+        dispatch(getContacts);
+    } catch (err) {
+        debugger;
+        console.log(JSON.parse(JSON.stringify(err)));
+    }
+};
+export const editContact = (data: I_contact) => async (dispatch: ThunkDispatch<{}, {}, AppActionsType>, getState: GetStateType) => {
+    try {
+        let response = await contactsRequests.editContact(data);
+        console.log(JSON.parse(JSON.stringify(response)));
+        dispatch(getContacts);
+    } catch (err) {
+        console.log(JSON.parse(JSON.stringify(err)));
+    }
+};
+export const deleteContact = (id: string) => async (dispatch: ThunkDispatch<{}, {}, AppActionsType>, getState: GetStateType) => {
+    try {
+        let response = await contactsRequests.deleteContact(id);
+        console.log(JSON.parse(JSON.stringify(response)));
+        await dispatch(getContacts);
+    } catch (err) {
+        console.log(JSON.parse(JSON.stringify(err)));
+    }
+};
 export type I_contactsActions = I_setContacts

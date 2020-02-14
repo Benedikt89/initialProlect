@@ -35,6 +35,11 @@ function Header(props: I_props) {
                         Register
                     </div>
                 </Link>
+                <Link to={"/contacts"}>
+                    <div className={style.item} >
+                        Contacts
+                    </div>
+                </Link>
             </div>
             {props.alert ? <span>{props.alert}</span> :
                 <div className={style.inform}>

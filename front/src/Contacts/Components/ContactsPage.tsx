@@ -4,6 +4,7 @@ import Contacts from './Contacts';
 import { createBrowserHistory as createHistory } from 'history'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const history = createHistory();
 
@@ -20,7 +21,7 @@ function ContactsPage() {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                <Route path="/" exact component={Contacts} />
+                <Route path="/contacts" exact component={Contacts} />
             </Router>
         </div>
     );

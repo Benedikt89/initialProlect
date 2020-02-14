@@ -213,8 +213,6 @@ const InnerForm: React.SFC<InjectedFormikProps<I_formOutherProps, I_formContact>
     );
 };
 
-
-
 interface I_Props {
     onSave: () => void,
     addContact: (values: I_formContact) => void,
@@ -266,7 +264,7 @@ const ContactForm = withFormik<I_Allprops, I_formContact>({
         if (!edit) {
             await addContact(values);
         } else {
-            await addContact(values);
+            await addContact({...values});
         }
         onSave();
         console.log(values);

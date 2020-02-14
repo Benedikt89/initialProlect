@@ -1,38 +1,33 @@
-import {I_contact} from "../contacts-types";
+import {I_contact, I_formContact} from "../contacts-types";
+import axios, {AxiosResponse} from "axios";
+import { APIerrorLogger } from "../../utils/errorLogger";
 
-const APIURL = "http://localhost:3000";
+const APIURL = "http://localhost:8000/api/contacts/";
 const MAPURL = "https://maps.googleapis.com/maps/api/geocode/json?address=";
 
-import axios, {AxiosResponse} from "axios";
-import {I_registerData} from "../../Login/auth-types";
-import {APIerrorLogger} from "../../utils/errorLogger";
-
-export const GOOGLE_API_KEY = "your API key";
+export const GOOGLE_API_KEY = "AIzaSyDdg7ToSLq8ZdJmpkx1b2SqC6wH8orEEQQ";
 
 export const contactsRequests = {
     getContacts(): Promise<Array<I_contact> | never> {
-        return  axios.get(`${APIURL}/contacts`)
+        return  axios.get(`${APIURL}`)
             .then((res) => {
             return res.data;
         })
     },
-    async addContact(data: I_registerData) {
+    async addContact(data: I_formContact) {
         try {
-            let res: AxiosResponse<any | { error: string } | any> = await axios.post(`${APIURL}/contacts`, data);
+            let res: AxiosResponse<any | { error: string } | any> = await axios.post(`${APIURL}/create`, data);
             return res.data;
         } catch (err) {
+            debugger;
             APIerrorLogger(err);
             throw err
         }
     },
+    editContact: (data: I_contact) =>
+        axios.put(`${APIURL}`, data),
+    deleteContact: (id: string) => axios.delete(`${APIURL}/delete/${id}`),
 };
-
-export const addContact = (data: I_contact) => axios.post(`${APIURL}/contacts`, data);
-
-export const editContact = (data: I_contact) =>
-    axios.put(`${APIURL}/contacts/${data.id}`, data);
-
-export const deleteContact = (id: string) => axios.delete(`${APIURL}/contacts/${id}`);
 
 export const getLatLng = (address: string) => {
     return axios.get(

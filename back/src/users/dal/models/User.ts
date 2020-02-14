@@ -30,7 +30,7 @@ userSchema.methods.fullName = function (): string {
     return (this.firstName.trim() + " " + this.lastName.trim());
 };
 
-userSchema.methods.getFullDataToSend = function (email: string): I_authMongooseUserData {
+userSchema.methods.getFullDataToSend = function (): I_authMongooseUserData {
     return {
         id: this.id,
         email: this.email,
