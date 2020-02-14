@@ -1,6 +1,6 @@
 import React from "react";
 import RegisterUserForm from "./forms/RegisterForm";
-import {I_registerData} from "../../types/auth-types";
+import {I_registerData} from "../auth-types";
 import {connect} from "react-redux";
 import {registerUser, registerWithAuth0} from "../reducer/actions";
 import style from "./Registration.module.css";

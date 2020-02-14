@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import {email, minLength4, required} from "./forms/FormElements/validators";
 import {getIsAuth} from "../reducer/selectors";
 import {renderField} from "./forms/FormElements/FormsControls";
-import {I_loginData} from "../../types/auth-types";
+import {I_loginData} from "../auth-types";
 
 const LoginForm:React.FC<InjectedFormProps<I_loginData>> = (props) => {
     let {handleSubmit, pristine, submitting, error} = props;

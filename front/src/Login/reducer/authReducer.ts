@@ -1,4 +1,4 @@
-import {I_authState, I_eventObject} from "../../types/auth-types";
+import {I_authState, I_eventObject} from "../auth-types";
 
 import {I_authActions, LOGOUT_USER_SUCCESS, SET_USER_DATA} from "./actions";
 

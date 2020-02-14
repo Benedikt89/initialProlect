@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {APIerrorLogger} from "../../utils/errorLogger";
-import {I_loginData, I_registerData} from "../../types/auth-types";
+import {I_loginData, I_registerData} from "../auth-types";
 import {I_authToFrontUserData} from "../../../../core/users-types";
 
 const instance = axios.create({

@@ -11,7 +11,7 @@ export const ErrorMessage:React.FC = () => {
     });
     return (
         <div style = {{
-            position: "fixed",
+            position: 'fixed',
             top: `${-50}px`,
             left: 'calc(50vw - 50px)',
             width: '100px',
@@ -21,11 +21,11 @@ export const ErrorMessage:React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
             background: 'red',
-            zIndex: '21',
+            zIndex: 21,
         }}>
             <div className={classForField}>
                 asd
             </div>
         </div>
     )
-}
+};

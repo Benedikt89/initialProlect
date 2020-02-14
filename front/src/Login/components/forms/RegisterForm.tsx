@@ -3,7 +3,7 @@ import style from './FormElements/FormControl.module.css';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {renderField} from "./FormElements/FormsControls";
 import {email, minLength4, required} from "./FormElements/validators";
-import { I_registerData} from "../../../types/auth-types";
+import { I_registerData} from "../../auth-types";
 
 const RegisterUserForm:React.FC<InjectedFormProps<I_registerData>> = (props) => {
     let {handleSubmit, pristine, submitting, error} = props;

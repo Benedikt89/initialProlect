@@ -9,14 +9,15 @@ import {getAppError, getIsFetching} from "./reducer/selectors";
 import Preloader from "./Common/Preloader";
 import {connect} from "react-redux";
 import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router";
-import Loginization from "../Loginization/components/Login";
-import RegisterPage from "../Loginization/components/Registration";
+import Loginization from "../Login/components/Login";
+import RegisterPage from "../Login/components/Registration";
 import ProfilePage from "../Profile/ProfilePage";
-import RecoverPassword from "../Loginization/components/RecoverPasswordPage";
+import RecoverPassword from "../Login/components/RecoverPasswordPage";
 import {withErrorBoundary} from "../Hoc/ErrorBoundary";
 import {ErrorMessage} from "./Common/ErrorMessage";
-import {getIsAuth} from "../Loginization/reducer/selectors";
-import {logOut} from "../Loginization/reducer/actions";
+import {getIsAuth} from "../Login/reducer/selectors";
+import {logOut} from "../Login/reducer/actions";
+import ContactsPage from "../Contacts/Components/ContactsPage";
 
 const ErrorMessageWithErrorBoundary =
     withErrorBoundary(ErrorMessage);
@@ -72,6 +73,7 @@ class Main extends Component<I_MainProps> {
                                     <RegisterPage/>
                                 </ErrorMessageWithErrorBoundary>
                             }/>
+                            <Route path="/contacts" render={() => <ContactsPage/>}/>
                             <Route path="/profile" render={() => <ProfilePage/>}/>
                             <Route path="/forgotPassword" render={() => <RecoverPassword/>}/>
                             <Route path="*" render={() => <div>Error 404</div>}/>
