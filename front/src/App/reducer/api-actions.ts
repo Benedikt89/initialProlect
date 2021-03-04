@@ -4,7 +4,6 @@ import {ThunkDispatch} from "redux-thunk";
 
 type GetStateType = () => AppStateType
 
-
 //API ACTIONS
 export const fetchData = () =>
     async (dispatch: ThunkDispatch<{}, {}, I_appActions>) => {

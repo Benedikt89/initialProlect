@@ -1,12 +1,9 @@
 import React from 'react';
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
 import * as yup from 'yup';
 import {COUNTRIES} from '../reducer/exports';
 import {I_contact, I_formContact} from "../contacts-types";
-import {withFormik, FormikProps, FormikErrors, InjectedFormikProps} from 'formik';
+import {withFormik, InjectedFormikProps} from 'formik';
+import {Button, Form, Input} from "antd";
 
 const schema = yup.object({
     firstName: yup.string().required('First name is required'),
@@ -29,7 +26,7 @@ const schema = yup.object({
     phone: yup
         .string()
         .when('country', {
-            is: country => ["United States", "Canada"].includes(country),
+            is: (country: string) => ["United States", "Canada"].includes(country),
             then: yup.string().matches(/^[2-9]\d{2}[2-9]\d{2}\d{4}$/, 'Invalid phone nunber')
         })
         .required(),
@@ -57,157 +54,107 @@ const InnerForm: React.SFC<InjectedFormikProps<I_formOutherProps, I_formContact>
     } = props;
     return (
         <div className="form">
-            <Form noValidate onSubmit={handleSubmit}>
-                <Form.Row>
-                    <Form.Group as={Col} md="12" controlId="firstName">
-                        <Form.Label>First name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="firstName"
-                            placeholder="First Name"
-                            value={values.firstName || ''}
-                            onChange={handleChange}
-                            isInvalid={!!(touched.firstName && errors.firstName)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.firstName}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="12" controlId="lastName">
-                        <Form.Label>Last name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="lastName"
-                            placeholder="Last Name"
-                            value={values.lastName || ''}
-                            onChange={handleChange}
-                            isInvalid={!!(touched.firstName && errors.lastName)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.lastName}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="12" controlId="address">
-                        <Form.Label>Address</Form.Label>
-                        <InputGroup>
-                            <Form.Control
-                                type="text"
-                                placeholder="Address"
-                                aria-describedby="inputGroupPrepend"
-                                name="address"
-                                value={values.address || ''}
-                                onChange={handleChange}
-                                isInvalid={!!(touched.address && errors.address)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.address}
-                            </Form.Control.Feedback>
-                        </InputGroup>
-                    </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                    <Form.Group as={Col} md="12" controlId="city">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="City"
-                            name="city"
-                            value={values.city || ''}
-                            onChange={handleChange}
-                            isInvalid={!!(touched.city && errors.city)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.city}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="12" controlId="region">
-                        <Form.Label>Region</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Region"
-                            name="region"
-                            value={values.region || ''}
-                            onChange={handleChange}
-                            isInvalid={!!(touched.region && errors.region)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.region}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="12" controlId="country">
-                        <Form.Label>Country</Form.Label>
-                        <Form.Control
-                            as="select"
-                            placeholder="Country"
-                            name="country"
-                            onChange={handleChange}
-                            value={values.country || ''}
-                            isInvalid={!!(touched.region && errors.country)}>
-                            {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
-                        </Form.Control>
-                        <Form.Control.Feedback type="invalid">
-                            {errors.country}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="12" controlId="postalCode">
-                        <Form.Label>Postal Code</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Postal Code"
-                            name="postalCode"
-                            value={values.postalCode || ''}
-                            onChange={handleChange}
-                            isInvalid={!!(touched.postalCode && errors.postalCode)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.postalCode}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="12" controlId="phone">
-                        <Form.Label>Phone</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Phone"
-                            name="phone"
-                            value={values.phone || ''}
-                            onChange={handleChange}
-                            isInvalid={!!(touched.phone && errors.phone)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.phone}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="12" controlId="email">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Email"
-                            name="email"
-                            value={values.email || ''}
-                            onChange={handleChange}
-                            isInvalid={!!(touched.email && errors.email)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.email}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="12" controlId="age">
-                        <Form.Label>Age</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Age"
-                            name="age"
-                            value={`${values.age}` || ''}
-                            onChange={handleChange}
-                            isInvalid={!!(touched.age && errors.age)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.age}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Form.Row>
-                <Button type="submit" style={{'marginRight': '10px'}}>Save</Button>
-                <Button type="button" onClick={onCancel}>Cancel</Button>
+            <Form noValidate>
+                <Form.Item label="First name" id="firstName">
+                    <Input
+                        type="text"
+                        name="firstName"
+                        placeholder="First Name"
+                        value={values.firstName || ''}
+                        onChange={handleChange}
+                    />
+                </Form.Item>
+                <Form.Item label="Last name" id="lastName">
+                    <Input
+                        type="text"
+                        name="lastName"
+                        placeholder="Last Name"
+                        value={values.lastName || ''}
+                        onChange={handleChange}
+                    />
+                </Form.Item>
+                <Form.Item label="Address" id="address">
+                    <Input
+                        type="text"
+                        placeholder="Address"
+                        aria-describedby="inputGroupPrepend"
+                        name="address"
+                        value={values.address || ''}
+                        onChange={handleChange}
+                    />
+                </Form.Item>
+
+                <Form.Item label="City" id="city">
+                    <Input
+                        type="text"
+                        placeholder="City"
+                        name="city"
+                        value={values.city || ''}
+                        onChange={handleChange}
+                    />
+                </Form.Item>
+                <Form.Item label="Region" id="region">
+                    <Input
+                        type="text"
+                        placeholder="Region"
+                        name="region"
+                        value={values.region || ''}
+                        onChange={handleChange}
+                    />
+                </Form.Item>
+                <Form.Item label="Country" id="country">
+                    <Input
+                        type="select"
+                        placeholder="Country"
+                        name="country"
+                        onChange={handleChange}
+                        value={values.country || ''}
+                    >
+                        {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                    </Input>
+                </Form.Item>
+                <Form.Item label="Postal Code" id="postalCode">
+                    <Input
+                        type="text"
+                        placeholder="Postal Code"
+                        name="postalCode"
+                        value={values.postalCode || ''}
+                        onChange={handleChange}
+                    />
+                </Form.Item>
+                <Form.Item label="Phone" id="phone">
+                    <Input
+                        type="text"
+                        placeholder="Phone"
+                        name="phone"
+                        value={values.phone || ''}
+                        onChange={handleChange}
+                    />
+                </Form.Item>
+                <Form.Item label="Email" id="email">
+                    <Input
+                        type="text"
+                        placeholder="Email"
+                        name="email"
+                        value={values.email || ''}
+                        onChange={handleChange}
+                    />
+                </Form.Item>
+                <Form.Item label="Age" id="age">
+                    <Input
+                        type="text"
+                        placeholder="Age"
+                        name="age"
+                        value={`${values.age}` || ''}
+                        onChange={handleChange}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" style={{'marginRight': '10px'}}>
+                        Save
+                    </Button>
+                    <Button onClick={onCancel}>Cancel</Button>
+                </Form.Item>
             </Form>
         </div>
     );
@@ -216,7 +163,7 @@ const InnerForm: React.SFC<InjectedFormikProps<I_formOutherProps, I_formContact>
 interface I_Props {
     onSave: () => void,
     addContact: (values: I_formContact) => void,
-    contact?: I_contact,
+    contact?: I_contact | null,
 }
 
 type I_Allprops = I_Props & I_formOutherProps
@@ -237,7 +184,7 @@ const ContactForm = withFormik<I_Allprops, I_formContact>({
             email: '',
             age: +''
         };
-        if (contact !== undefined) {
+        if (contact) {
             return {
                 firstName: contact.firstName,
                 lastName: contact.lastName,

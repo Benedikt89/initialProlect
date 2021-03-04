@@ -1,6 +1,6 @@
 import React from "react";
 import {I_contact} from "../contacts-types";
-import Button from "react-bootstrap/Button";
+import {Button} from "antd";
 
 interface I_props {
     contact: I_contact,
@@ -23,7 +23,7 @@ const Contact: React.FC<I_props> = ({contact, openMap, editContact, deleteSelect
             <td>{contact.age}</td>
             <td>
                 <Button
-                    variant="outline-primary"
+                    type="primary"
                     onClick={ () => {openMap(contact)} }
                 >
                     Map
@@ -31,7 +31,7 @@ const Contact: React.FC<I_props> = ({contact, openMap, editContact, deleteSelect
             </td>
             <td>
                 <Button
-                    variant="outline-primary"
+                    type="primary"
                     onClick={ () => {editContact(contact)} }
                 >
                     Edit
@@ -39,7 +39,7 @@ const Contact: React.FC<I_props> = ({contact, openMap, editContact, deleteSelect
             </td>
             <td>
                 <Button
-                    variant="outline-primary"
+                    type="primary"
                     onClick={ () => {deleteSelectedContact(contact.id)} }
                 >
                     Delete

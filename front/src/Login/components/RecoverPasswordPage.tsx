@@ -1,13 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import {reduxForm, Field} from "redux-form";
-import {compose} from "redux";
 import {recoverPassword} from "../reducer/actions";
 
-
 const RecoverPasswordForm: React.FC = (props: any) => {
-
-
 
     return (
         <form onSubmit={props.handleSubmit}>
@@ -40,6 +36,5 @@ const RecoverPassword = ({recoverPassword}: any) => {
 }
 
 const RecoverPasswordPage = reduxForm({form: 'recoverPasswordForm'})(RecoverPasswordForm)
-
 
 export default connect(mapStateToProps,{recoverPassword})(RecoverPassword);

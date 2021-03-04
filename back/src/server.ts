@@ -1,89 +1,46 @@
-import express, {NextFunction, Request, Response} from "express";
-import bodyParser from 'body-parser';
-import session from 'express-session';
-import cors from "cors";
-import cookieParser from 'cookie-parser';
-import mongoose from "mongoose";
-import morgan from 'morgan';
+import dotenv from 'dotenv';
 
-// setup routers
-import users from "./users/users-router";
-import contacts from "./contacts/contacts-router";
+const result = dotenv.config();
+if (result.error) {
+    dotenv.config({path: '.env.default'});
+}
 
-import {imagesPath, staticPath} from "./config";
+import app from './app';
+import MongoConnection from './mongo-connection';
+import logger from './logger';
 
 //Database connections
-mongoose.connect('mongodb://localhost/initial', {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.Promise = global.Promise;
+const mongoConnection = new MongoConnection(process.env.MONGO_URL || 'mongodb://localhost/initial');
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', function () {
-});
+if (process.env.MONGO_URL == null) {
+    logger.error('MONGO_URL not specified in environment');
+    process.exit(1);
+} else {
+    mongoConnection.connect(() => {
+        app.listen(app.get('port'), (): void => {
+            console.log('\x1b[36m%s\x1b[0m', // eslint-disable-line
+                `🌏 Express server started at http://localhost:${app.get('port')}`);
+            if (process.env.NODE_ENV === 'development') {
+                console.log('\x1b[36m%s\x1b[0m', // eslint-disable-line
+                    `⚙️  Swagger UI hosted at http://localhost:${app.get('port')}/dev/api-docs`);
+            }
+        });
+    });
+}
 
-const corsOptions = {
-    origin: true,
-    credentials: true,
-};
-
-//Initiate app
-const app: express.Application = express();
-
-
-app.use(cors(corsOptions));
-app.use(cookieParser());
-app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-
-//adding session cookies
-app.use(session({
-    secret: 'ssshhhhh',
-    name: 'SESSION_TOKEN',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        httpOnly: false
-    }
-}));
-//routers
-app.use('/api/users', users);
-app.use('/api/contacts', contacts);
-
-//Configure
-app.disable("x-powered-by");
-
-
-//local Static Files
-app.use('/public', express.static(staticPath));
-app.use('/static/images/', express.static(imagesPath));
-
-
-//sendStatic
-app.get('/', (req: Request, res: Response) => {
-    res.sendFile(staticPath + '/index.html');
-});
-
-
-
-//Error handlers & middlewares
-app.use((req: Request, res: Response, next: NextFunction)=>{
-    const error = new Error("not found");
-    // @ts-ignore
-    error.status = 404;
-    next(error);
-});
-
-app.use((error: any, req: Request, res: Response, next: NextFunction)=>{
-    res.status(error.status || 500);
-    res.json({
-        error:{
-            message: error.message
+// Close the Mongoose connection, when receiving SIGINT
+process.on('SIGINT', () => {
+    logger.info('Gracefully shutting down');
+    mongoConnection.close(err => {
+        if (err) {
+            logger.log({
+                level: 'error',
+                message: 'Error shutting closing mongo connection',
+                error: err
+            });
+        } else {
+            logger.info('Mongo connection closed successfully');
         }
-    })
-});
-
-app.listen(8000, () => {
-    console.log('App listening port 8000')
+        process.exit(0);
+    });
 });

@@ -72,7 +72,7 @@ class Main extends Component<I_MainProps> {
                                     <RegisterPage/>
                                 </ErrorMessageWithErrorBoundary>
                             }/>
-                            <Route path="/contacts" render={() => <ContactsPage/>}/>
+                            <Route path="/contacts" render={(props) => <ContactsPage history={props.history}/>}/>
                             <Route path="/profile" render={() => <ProfilePage/>}/>
                             <Route path="/forgotPassword" render={() => <RecoverPassword/>}/>
                             <Route path="*" render={() => <div>Error 404</div>}/>

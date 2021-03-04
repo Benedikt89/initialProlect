@@ -1,15 +1,10 @@
 import React from "react";
 import RegisterUserForm from "./forms/RegisterForm";
 import {I_registerData} from "../auth-types";
-import {connect} from "react-redux";
 import {registerUser, registerWithAuth0} from "../reducer/actions";
 import style from "./Registration.module.css";
-import FacebookLogin from 'react-facebook-login';
-import GoogleLogin from 'react-google-login';
 
-
-import {FACEBOOK_APP_ID, GOOGLE_CLIENT_ID} from '../../loginConfig';
-import WithModal from "../../Common/Modals/Modal";
+import {connect} from "react-redux";
 
 interface I_connectedProps {
     registerUser: (data: I_registerData) => void
@@ -31,49 +26,49 @@ const RegisterPage: React.FC<I_connectedProps> = ({registerUser}: I_connectedPro
         </div>
     )
 };
-
-const OutSideRegister = () => {
-    const responseFacebook = (res: any) => {
-        let userIncomingFacebook = {
-            accessToken: res.accessToken,
-            data_access_expiration_time: res.data_access_expiration_time,
-            email: res.email,
-            expiresIn: res.expiresIn,
-            id: res.id,
-            name: res.name,
-            picture: {...res.picture},
-            signedRequest: res.signedRequest,
-            userID: res.userID
-        };
-        console.log(userIncomingFacebook);
-    };
-
-    const responseGoogle = (response: any) => {
-        console.log(response);
-    };
-    return (
-        <div>
-            <FacebookLogin
-                appId={FACEBOOK_APP_ID} //APP ID
-                fields="name,email,picture"
-                callback={responseFacebook}
-            />
-
-            <br/>
-            <WithModal visible={false} closeModal={() => {
-                alert('close')
-            }}>
-                <GoogleLogin
-                    clientId={GOOGLE_CLIENT_ID} //CLIENT ID
-                    buttonText="LOGIN WITH GOOGLE"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                />
-                <h2>THIS IS PROPS.CHILDREN</h2>
-            </WithModal>
-        </div>
-    )
-};
+//
+// const OutSideRegister = () => {
+//     const responseFacebook = (res: any) => {
+//         let userIncomingFacebook = {
+//             accessToken: res.accessToken,
+//             data_access_expiration_time: res.data_access_expiration_time,
+//             email: res.email,
+//             expiresIn: res.expiresIn,
+//             id: res.id,
+//             name: res.name,
+//             picture: {...res.picture},
+//             signedRequest: res.signedRequest,
+//             userID: res.userID
+//         };
+//         console.log(userIncomingFacebook);
+//     };
+//
+//     const responseGoogle = (response: any) => {
+//         console.log(response);
+//     };
+//     return (
+//         <div>
+//             <FacebookLogin
+//                 appId={FACEBOOK_APP_ID} //APP ID
+//                 fields="name,email,picture"
+//                 callback={responseFacebook}
+//             />
+//
+//             <br/>
+//             <WithModal visible={false} closeModal={() => {
+//                 alert('close')
+//             }}>
+//                 <GoogleLogin
+//                     clientId={GOOGLE_CLIENT_ID} //CLIENT ID
+//                     buttonText="LOGIN WITH GOOGLE"
+//                     onSuccess={responseGoogle}
+//                     onFailure={responseGoogle}
+//                     cookiePolicy={'single_host_origin'}
+//                 />
+//                 <h2>THIS IS PROPS.CHILDREN</h2>
+//             </WithModal>
+//         </div>
+//     )
+// };
 
 export default connect(null, {registerUser, registerWithAuth0})(RegisterPage);

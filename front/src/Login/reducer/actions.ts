@@ -1,11 +1,10 @@
-import {Dispatch} from "redux";
 import {AppActionsType, AppStateType} from "../../redux/store";
 import {authAPI} from "./api";
 import {ThunkDispatch} from "redux-thunk";
 import { _setError, _toggleIsFetching } from "../../App/reducer/actions";
 import { stopSubmit } from "redux-form";
 import {I_authUserData, I_loginData, I_registerData} from "../auth-types";
-import {I_authToFrontUserData} from "../../../../core/users-types";
+import {I_authToFrontUserData} from "../../types/users-types";
 /*import createAuth0Client from "@auth0/auth0-spa-js";
 import config from "../../auth_config.json";*/
 

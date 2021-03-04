@@ -1,26 +1,22 @@
 import React from 'react';
 import { Router, Route, Link } from "react-router-dom";
 import Contacts from './Contacts';
-import { createBrowserHistory as createHistory } from 'history'
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import {Menu} from "antd";
+import SubMenu from "antd/lib/menu/SubMenu";
 
-const history = createHistory();
 
-function ContactsPage() {
+function ContactsPage({history}: any) {
     return (
         <div className="App">
             <Router history={history}>
-                <Navbar bg="primary" expand="lg" variant="dark" >
-                    <Navbar.Brand href="#home">Address Book App</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                            <Nav.Link href="/">Home</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Navbar>
+                <Menu >
+                    <Menu.Item>Address Book App</Menu.Item>
+                    <Menu.Item aria-controls="basic-navbar-nav" />
+                    <SubMenu key="sub1">
+                        <Menu.Item key="3">Option 3</Menu.Item>
+                        <Menu.Item key="4"><Link to={"/"}>Home</Link></Menu.Item>
+                    </SubMenu>
+                </Menu>
                 <Route path="/contacts" exact component={Contacts} />
             </Router>
         </div>

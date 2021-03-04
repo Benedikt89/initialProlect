@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from "axios";
 import {APIerrorLogger} from "../../utils/errorLogger";
 import {I_loginData, I_registerData} from "../auth-types";
-import {I_authToFrontUserData} from "../../../../core/users-types";
+import {I_authToFrontUserData} from "../../types/users-types";
 
 const instance = axios.create({
     // baseURL: "https://dry-forest-56016.herokuapp.com/auth"
