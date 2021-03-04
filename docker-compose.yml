@@ -7,8 +7,6 @@ services:
     restart: always
     networks:
       - dev-network
-    volumes:
-      - ./data/dev/mongo:/data/db
     ports:
       - "27017:27017"
   api-server:
